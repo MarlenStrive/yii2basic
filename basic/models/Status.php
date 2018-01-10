@@ -3,6 +3,10 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveRecord;
+use yii\behaviors\SluggableBehavior;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "status".
@@ -13,6 +17,7 @@ use Yii;
  * @property int $created_at
  * @property int $updated_at
  * @property int $created_by
+ * @property int $updated_by
  *
  * @property User $createdBy
  */
@@ -21,6 +26,31 @@ class Status extends \yii\db\ActiveRecord
 
     const PERMISSIONS_PRIVATE = 10;
     const PERMISSIONS_PUBLIC = 20;
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => SluggableBehavior::className(),
+                'attribute' => 'message',
+                // 'slugAttribute' => 'slug',
+                'immutable' => true,
+                'ensureUnique' => true,
+            ],
+            [
+                'class' => BlameableBehavior::className(),
+                'createdByAttribute' => 'created_by',
+                'updatedByAttribute' => 'updated_by',
+            ],
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+            ],
+        ];
+    }
 
     /**
      * @inheritdoc
@@ -54,10 +84,10 @@ class Status extends \yii\db\ActiveRecord
     {
         return [
             [['message'], 'string'],
-            [['permissions', 'created_at', 'updated_at', 'created_by'], 'default', 'value' => null],
-            [['permissions', 'created_at', 'updated_at', 'created_by'], 'integer'],
-            [['created_at', 'updated_at', 'created_by'], 'required'],
-            [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
+            [['permissions'], 'default', 'value' => null],
+            [['permissions'], 'integer'],
+            //[['created_at', 'updated_at'], 'required'],
+            //[['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
         ];
     }
 

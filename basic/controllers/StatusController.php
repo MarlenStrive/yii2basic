@@ -94,6 +94,23 @@ class StatusController extends Controller
     }
 
     /**
+     * Displays a single Status model.
+     * @param string $slug
+     * @return mixed
+     */
+    public function actionSlug($slug)
+    {
+        $model = Status::find()->where(['slug' => $slug])->one();
+        if (!is_null($model)) {
+            return $this->render('view', [
+                'model' => $model,
+            ]);
+        } else {
+            return $this->redirect('/status/index');
+        }
+    }
+
+    /**
      * Creates a new Status model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -104,9 +121,9 @@ class StatusController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             
-            $model->created_by = Yii::$app->user->getId();
-            $model->created_at = time();
-            $model->updated_at = time();
+            //$model->created_by = Yii::$app->user->getId();
+            //$model->created_at = time();
+            //$model->updated_at = time();
             
             if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -131,7 +148,7 @@ class StatusController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             
-            $model->updated_at = time();
+            //$model->updated_at = time();
             
             if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
