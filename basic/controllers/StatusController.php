@@ -3,10 +3,13 @@
 namespace app\controllers;
 
 use Yii;
+use app\components\AccessRule;
 use app\models\Status;
 use app\models\StatusSearch;
+use app\models\User;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 
 /**
@@ -25,6 +28,39 @@ class StatusController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                 ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'ruleConfig' => [
+                    'class' => AccessRule::className(),
+                ],
+                'only' => ['index','create','update','delete'],
+                'rules' => [
+                   [
+                       'actions' => ['index','create'],
+                       'allow' => true,
+                       'roles' => [
+                           User::ROLE_USER,
+                           User::ROLE_MODERATOR,
+                           User::ROLE_ADMIN,
+                       ],
+                   ],
+                   [
+                       'actions' => ['update'],
+                       'allow' => true,
+                       'roles' => [
+                           User::ROLE_MODERATOR,
+                           User::ROLE_ADMIN,
+                       ],
+                   ],
+                   [
+                       'actions' => ['delete'],
+                       'allow' => true,
+                       'roles' => [
+                           User::ROLE_ADMIN,
+                       ],
+                   ],
+               ],
             ],
         ];
     }
@@ -68,6 +104,7 @@ class StatusController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             
+            $model->created_by = Yii::$app->user->getId();
             $model->created_at = time();
             $model->updated_at = time();
             
@@ -92,8 +129,13 @@ class StatusController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            
+            $model->updated_at = time();
+            
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
         return $this->render('update', [
@@ -128,6 +170,6 @@ class StatusController extends Controller
             return $model;
         }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+        throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
 }

@@ -18,7 +18,7 @@ class StatusSearch extends Status
     public function rules()
     {
         return [
-            [['id', 'permissions', 'created_at', 'updated_at'], 'integer'],
+            [['id', 'permissions', 'created_at', 'updated_at', 'created_by'], 'integer'],
             [['message'], 'safe'],
         ];
     }
@@ -63,6 +63,7 @@ class StatusSearch extends Status
             'permissions' => $this->permissions,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'created_by' => $this->created_by,
         ]);
 
         $query->andFilterWhere(['ilike', 'message', $this->message]);
