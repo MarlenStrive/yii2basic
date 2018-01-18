@@ -25,6 +25,7 @@ return [
             'migrationPath' => [
                 '@app/migrations',
                 '@yii/rbac/migrations',
+                '@vendor/dektrium/yii2-user/migrations',
             ],
         ],
     ],

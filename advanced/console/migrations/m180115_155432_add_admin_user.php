@@ -7,6 +7,8 @@ use yii\db\Migration;
  */
 class m180115_155432_add_admin_user extends Migration
 {
+    public $adminId = 1;
+    
     /**
      * @inheritdoc
      */
@@ -23,7 +25,12 @@ class m180115_155432_add_admin_user extends Migration
         
         $auth = Yii::$app->authManager;
         $role = $auth->getRole('admin');
-        $auth->assign($role, 1);
+        $auth->assign($role, $this->adminId);
+        
+        $this->insert('profile', [
+            'user_id' => $this->adminId,
+        ]);
+        
     }
 
     /**
@@ -33,7 +40,7 @@ class m180115_155432_add_admin_user extends Migration
     {
         $auth = Yii::$app->authManager;
         $role = $auth->getRole('admin');
-        $auth->revokeAll(1);
+        $auth->revokeAll($this->adminId);
         
         $this->delete('user', 'username = :username', [':username' => 'admin']);
     }

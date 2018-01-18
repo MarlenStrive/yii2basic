@@ -1,16 +1,16 @@
 <?php
 
-namespace app\models;
+namespace common\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Presentation;
+use common\models\Category;
 
 /**
- * PresentationSearch represents the model behind the search form of `app\models\Presentation`.
+ * CategorySearch represents the model behind the search form of `common\models\Category`.
  */
-class PresentationSearch extends Status
+class CategorySearch extends Category
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class PresentationSearch extends Status
     public function rules()
     {
         return [
-            [['id', 'permissions', 'created_at', 'updated_at', 'created_by'], 'integer'],
-            [['message'], 'safe'],
+            [['id'], 'integer'],
+            [['category'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class PresentationSearch extends Status
      */
     public function search($params)
     {
-        $query = Status::find();
+        $query = Category::find();
 
         // add conditions that should always apply here
 
@@ -60,13 +60,9 @@ class PresentationSearch extends Status
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'permissions' => $this->permissions,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'created_by' => $this->created_by,
         ]);
 
-        $query->andFilterWhere(['ilike', 'message', $this->message]);
+        $query->andFilterWhere(['like', 'category', $this->category]);
 
         return $dataProvider;
     }

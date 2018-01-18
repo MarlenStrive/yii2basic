@@ -3,6 +3,11 @@ body {
     height: 100%;
 }
 
+.main-header .logo {
+    padding: 0px !important;
+}
+
+
 .wrap {
     min-height: 100%;
     height: auto;

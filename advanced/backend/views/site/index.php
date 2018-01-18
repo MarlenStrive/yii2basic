@@ -1,11 +1,16 @@
 <?php
 
+use common\widgets\reveal\RevealWidget;
+use yii\bootstrap\ActiveForm;
+use yii\base\Model;
+
 /* @var $this yii\web\View */
 
 $this->title = 'My Yii Application';
 ?>
 <div class="site-index">
 
+    <!-- 
     <div class="jumbotron">
         <h1>Congratulations!</h1>
 
@@ -13,9 +18,15 @@ $this->title = 'My Yii Application';
 
         <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
     </div>
+    -->
 
     <div class="body-content">
-
+        
+        <div class="row" style="height:300px; width: 300px; border: 1px solid black;">
+            <?php $content = '<section>hi 1 hi</section><section>hi 2 hi</section><section>hi 3 hi</section>'; ?>
+            <?= RevealWidget::widget(['content' => $content]) ?>
+        </div>
+        
         <div class="row">
             <div class="col-lg-4">
                 <h2>Heading</h2>
