@@ -24,6 +24,10 @@ return [
                 ],
             ],
         ],
+        /*'user' => [
+            'class' => 'dektrium\user\models\User',
+            'identityClass' => 'common\models\User',
+        ],*/
     ],
     'modules' => [
         'user' => [

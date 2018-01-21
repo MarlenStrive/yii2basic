@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
@@ -47,6 +48,10 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => Yii::t('app', 'Category'),
                 'value' => $model->category->category,
+            ],
+            [
+                'label' => Yii::t('app', 'Tags'),
+                'value' => implode(', ', ArrayHelper::getColumn($model->tags, 'name')),
             ],
         ],
     ]) ?>

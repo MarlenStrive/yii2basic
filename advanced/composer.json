@@ -22,7 +22,10 @@
         "dektrium/yii2-user": "*",
         "rmrevin/yii2-fontawesome": "2.10.*",
         "2amigos/yii2-tinymce-widget" : "*",
-        "2amigos/yii2-date-picker-widget" : "~1.0"
+        "2amigos/yii2-date-picker-widget" : "~1.0",
+        "2amigos/yii2-taggable-behavior": "~1.0",
+        "2amigos/yii2-selectize-widget": "~1.0",
+        "voskobovich/yii2-linker-behavior": "^4.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

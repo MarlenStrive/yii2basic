@@ -48,13 +48,19 @@ return [
                 'presentation/view/<id:\d+>' => 'presentation/view',
                 'presentation/update/<id:\d+>' => 'presentation/update',
                 'presentation/delete/<id:\d+>' => 'presentation/delete',
-                'presentation/<slug>' => 'presentation/slug',
+                'presentation/newPage/<id:\d+>' => 'presentation/new-page',
+                'presentation/updatePage/<id:\d+>/<number:\d+>' => 'presentation/update-page',
+                'presentation/finishUpdate/<id:\d+>' => 'presentation/finish-update',
+                'presentation/deletePage/<id:\d+>/<number:\d+>' => 'presentation/delete-page',
+                'presentation/presentation/<id:\d+>' => 'presentation/presentation',
+                //'presentation/<slug>' => 'presentation/slug',
+                'tag/list' => 'tag/list',
                 'defaultRoute' => '/site/index',
             ],
         ],
         'urlManagerFrontend' => [
             'class' => 'yii\web\urlManager',
-            'hostInfo' => 'http://f.yii2advanced.example', // TODO: remove somewhere!
+            'hostInfo' => 'http://f.yii2advanced.example', // TODO: remove somewhere! - во внешний конфиг файл?!
             'enablePrettyUrl' => true,
             'showScriptName' => false,
         ],

@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use backend\assets\CreatePresentationAsset;
+//use backend\assets\CreatePresentationAsset;
 use dosamigos\tinymce\TinyMce;
 use dosamigos\datepicker\DateRangePicker;
 use common\models\Category;
@@ -10,13 +10,9 @@ use common\models\Category;
 /* @var $this yii\web\View */
 /* @var $model common\models\Presentation */
 /* @var $form yii\widgets\ActiveForm */
-
-CreatePresentationAsset::register($this);
 ?>
 
-<div class="presentation-form">
-
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['id' => 'presentation-form']]); ?>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
@@ -33,13 +29,9 @@ CreatePresentationAsset::register($this);
         ]
     ]);?>
 
-    <?= $form->field($model, 'is_public')->checkBox(['selected' => $model->is_public]) ?>
-
-    <?= $form->field($model, 'image_preview')->textInput(['maxlength' => true]) ?>
-
     <?= $form->field($model, 'publication_date')->widget(DateRangePicker::className(), [
         'attributeTo' => 'expiration_date', 
-        'form' => $form, // best for correct client validation
+        'form' => $form,
         'language' => 'en',
         'size' => 'lg',
         'clientOptions' => [
@@ -52,9 +44,11 @@ CreatePresentationAsset::register($this);
             ['prompt' => '---- Select category ----'])->label(Yii::t('app', 'Category')) ?>
 
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
+        <?php if ($model->isNewRecord || $model->getPagesCount() == 0) {
+            echo Html::submitButton(Yii::t('app', 'Next: Create Pages'), ['class' => 'btn btn-primary']);
+        } else {
+            echo Html::submitButton(Yii::t('app', 'Next: Update Pages'), ['class' => 'btn btn-success']);
+        } ?>
     </div>
-
+    
     <?php ActiveForm::end(); ?>
-
-</div>

@@ -4,16 +4,17 @@ namespace backend\assets;
 
 use yii\web\AssetBundle;
 
-/**
- * Main backend application asset bundle.
- */
-class CreatePresentationAsset extends AssetBundle
+class PresentationAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
+    public $css = [
+        //'css/jquery.steps.css',
+    ];
     public $js = [
-        'js/jquery.steps.min.js',
-        'js/createPresentation.js',
+        'js/html2canvas.min.js',
+        //'js/dom-to-image.min.js',
+        'js/presentation.js',
     ];
     public $depends = [
         'yii\web\JqueryAsset',
