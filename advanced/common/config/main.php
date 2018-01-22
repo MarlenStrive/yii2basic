@@ -17,8 +17,6 @@ return [
             'clients' => [
                 'facebook' => [
                     'class' => 'dektrium\user\clients\Facebook',
-                    //'consumerKey' => '',
-                    //'consumerSecret' => '',
                     'clientId' => '1855695951107135',
                     'clientSecret' => '45e7d1afd5962addec05c73bf9871bf5',
                 ],
@@ -33,12 +31,15 @@ return [
         'user' => [
             'class' => 'dektrium\user\Module',
             'enableUnconfirmedLogin' => true,
+            'enableFlashMessages' => false,
             'confirmWithin' => 21600,
             'cost' => 12,
-            /*'modelMap' => [
-                'User' => 'app\models\User',
-            ],*/
+            'modelMap' => [
+                'User' => 'common\models\User',
+                'Profile' => 'common\models\Profile',
+            ],
             'admins' => ['admin'],
+            //'on ' . \common\models\User::EVENT_AFTER_INSERT => ['common\models\User', 'afterInsert'],
         ],
     ],
 ];

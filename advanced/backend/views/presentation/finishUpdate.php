@@ -5,7 +5,7 @@ use yii\widgets\ActiveForm;
 use backend\assets\PresentationAsset;
 use dosamigos\selectize\SelectizeTextInput;
 use common\models\User;
-use common\widgets\reveal\RevealWidget;
+//use common\widgets\reveal\RevealWidget;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Presentation */
@@ -58,64 +58,3 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Finish Presentation');
     <?php ActiveForm::end(); ?>
 
 </div>
-
-<script src="/assets/8eb71703/jquery.js"></script>
-<script>
-$(function() {
-    
-    $("#save-btn").on("click", function(e) {
-        
-        var pageNumber = parseInt($('select[name="Presentation[image_preview]"] option:selected').val()) + 1;
-        var pageContent = $("#slides").contents().find("#page-" + pageNumber).get(0);
-        
-        html2canvas(pageContent).then(function(canvas) {
-            
-            var image = canvas.toDataURL("image/png");
-            $("<textarea name='Presentation[image-preview-content]' class='hide'>" + image + "</textarea>")
-                    .appendTo("#presentation-form");
-            
-            $("#presentation-form").submit();
-        });
-    });
-    
-    
-    $("[name='Presentation[image_preview111]']").on("change", function() {
-        var pageNumber = parseInt(this.value) + 1;
-        var pageContent = $("#slides").contents().find("#page-" + pageNumber).get(0);
-        
-        html2canvas(pageContent).then(function(canvas) {
-            document.body.appendChild(canvas);
-        });
-        
-        /*html2canvas(document.querySelector("page-" + pageNumber), {height: 500}).then(function(canvas) {
-            console.log(canvas);
-            document.querySelector("image-preview-canvas").innerHTML(canvas);
-        });
-        */
-        
-        /*html2canvas($("#page-" + pageNumber).get(0)).then( function (canvas) {
-            console.log(canvas);
-        });*/
-        
-        /*
-        html2canvas($("#page-" + pageNumber).get(0)).then( function (canvas) {
-            theCanvas = canvas;
-            //document.body.appendChild(canvas);
-$("#image-preview-canvas").append(canvas);
-
-            / *
-            // Convert and download as image 
-            Canvas2Image.saveAsPNG(canvas); 
-            $("#image-preview-canvas").append(canvas);
-            // Clean up 
-            //document.body.removeChild(canvas);
-            
-            console.log($("#image-preview-canvas"));
-            console.log('hello');
-            * /
-        });
-        */
-    });
-    
-});
-</script>

@@ -3,6 +3,9 @@ use yii\helpers\Html;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
+
+/* @var $profile dektrium\user\models\Profile */
+$profile = Yii::$app->user->identity->profile;
 ?>
 
 <header class="main-header">
@@ -20,35 +23,32 @@ use yii\helpers\Html;
                 <!-- User Account: style can be found in dropdown.less -->
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
-                        <span class="hidden-xs">Alexander Pierce</span>
+                        <?= Html::img($profile->getAvatarUrl(230), [
+                            'class' => 'user-image',
+                            'alt' => Yii::$app->user->identity->username,
+                        ]) ?>
+                        <span class="hidden-xs"><?= Yii::$app->user->identity->username ?></span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="img-circle"
-                                 alt="User Image"/>
+                            <?= Html::img($profile->getAvatarUrl(230), [
+                                'class' => 'img-circle',
+                                'alt' => Yii::$app->user->identity->username,
+                            ]) ?>
                             <p>
-                                Alexander Pierce - Web Developer
-                                <small>Member since Nov. 2012</small>
+                                <?= Yii::$app->user->identity->username ?>
+                                <small>Member since <?= Yii::$app->formatter->asDate(Yii::$app->user->identity->created_at, 'MMM. Y') ?> </small>
                             </p>
-                        </li>
-                        <!-- Menu Body -->
-                        <li class="user-body">
-                            <div class="col-xs-4 text-center">
-                                <a href="#">Followers</a>
-                            </div>
-                            <div class="col-xs-4 text-center">
-                                <a href="#">Sales</a>
-                            </div>
-                            <div class="col-xs-4 text-center">
-                                <a href="#">Friends</a>
-                            </div>
                         </li>
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                <?= Html::a(
+                                    'Profile',
+                                    ['/user/settings/profile'],
+                                    ['class' => 'btn btn-default btn-flat']
+                                ) ?>
                             </div>
                             <div class="pull-right">
                                 <?= Html::a(
