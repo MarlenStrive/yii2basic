@@ -17,6 +17,7 @@ use voskobovich\linker\LinkerBehavior;
  * @property string $description
  * @property int $is_public
  * @property int $image_preview
+ * @property text $image
  * @property int $created_at
  * @property int $updated_at
  * @property string $publication_date
@@ -35,9 +36,7 @@ use voskobovich\linker\LinkerBehavior;
  */
 class Presentation extends ActiveRecord
 {
-    //public $editor_ids = array();
-    //public $viewer_ids = array();
-    
+
     /**
      * @inheritdoc
      */
@@ -49,10 +48,18 @@ class Presentation extends ActiveRecord
     /**
      * @inheritdoc
      */
+    public static function find()
+    {
+        return new PresentationQuery(get_called_class());
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
-            [['user_id', 'title', 'is_public', 'category_id', 'image_preview'], 'required'],
+            [['user_id', 'title', 'is_public', 'category_id'], 'required'],
             [['user_id', 'is_public', 'category_id', 'image_preview'], 'integer'],
             [['description'], 'string'],
             [['publication_date', 'expiration_date'], 'safe'],
@@ -151,7 +158,7 @@ class Presentation extends ActiveRecord
         
         $this->user_id = $currentUserId;
         $this->rating = self::getCurrentRating($currentUserId);
-        $this->is_public = 0;
+        $this->is_public = false;
     }
 
     public static function getCurrentRating($userId)
@@ -159,24 +166,16 @@ class Presentation extends ActiveRecord
         return Presentation::find()->where(['user_id' => $userId])->count();
     }
 
-    public function savePreviewImage($imageData)
+    public function setPreviewImage($imageData)
     {
+        /*
         $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imageData));
-        
-        $filepath = $this->getImagePreviewPath();
-        
-        /*var_dump($imageData);
-        var_dump(preg_replace('#^data:image/\w+;base64,#i', '', $imageData));
-        var_dump($data);
-        exit;*/
+        $filepath = Yii::getAlias('@webroot/images') . '/' . $this->id . '.png';
         file_put_contents($filepath, $data);
+        */
+        $this->image = $imageData;
         
         return true;
-    }
-
-    public function getImagePreviewPath()
-    {
-        return Yii::getAlias('@webroot/images') . '/' . $this->id . '.png';
     }
 
     /**
@@ -245,10 +244,11 @@ class Presentation extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPresentationTags()
+    // TODO: remove, copy of getTags()
+    /*public function getPresentationTags()
     {
         return $this->hasMany(PresentationTag::className(), ['presentation_id' => 'id']);
-    }
+    }*/
 
     /**
      * @return \yii\db\ActiveQuery
@@ -257,4 +257,37 @@ class Presentation extends ActiveRecord
     {
         return $this->hasMany(PresentationViewer::className(), ['presentation_id' => 'id']);
     }
+
+    /**
+     * @return array \yii\db\ActiveQuery
+     */
+    public function getRandomRows($number)
+    {
+        return Presentation::find()
+            //->where('is_public = 1')
+            ->public()
+            ->andWhere('publication_date IS NULL OR NOW() >= publication_date')
+            ->andWhere('expiration_date IS NULL OR NOW() <= expiration_date')
+            ->orderBy('updated_at DESC')
+            ->limit($number)
+            ->all();
+    }
+
+    /**
+     * Set conditions for select presentations to show on the frontend part
+     * 
+     * @return \yii\db\ActiveQuery
+     */
+    public static function getUserQueryConditions()
+    {
+        $currentUserId = Yii::$app->user->identity->id;
+        
+        return Presentation::find()
+            ->leftJoin('presentation_viewer pv', 'pv.presentation_id = id AND pv.user_id = :user_id', ['user_id' => $currentUserId])
+            ->leftJoin('presentation_editor pe', 'pe.presentation_id = id AND pe.user_id = :user_id', ['user_id' => $currentUserId])
+            ->where('publication_date IS NULL OR NOW() >= publication_date')
+            ->andWhere('expiration_date IS NULL OR NOW() <= expiration_date')
+            ->andWhere('is_public = 1 OR pv.presentation_id IS NOT NULL OR pe.presentation_id IS NOT NULL');
+    }
+
 }

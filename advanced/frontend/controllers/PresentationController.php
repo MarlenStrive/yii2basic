@@ -7,6 +7,8 @@ use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use common\models\Presentation;
+use frontend\models\PresentationSearch;
 
 /**
  * Presentation controller
@@ -16,29 +18,18 @@ class PresentationController extends Controller
     /**
      * @inheritdoc
      */
-    /*public function behaviors()
+    public function behaviors()
     {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup'],
+                'only' => ['index', 'slug', 'presentation'],
                 'rules' => [
                     [
-                        'actions' => ['signup'],
-                        'allow' => true,
-                        'roles' => ['?'],
-                    ],
-                    [
-                        'actions' => ['logout'],
+                        'actions' => ['index', 'slug', 'presentation'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
                 ],
             ],
         ];
@@ -52,10 +43,6 @@ class PresentationController extends Controller
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
-            ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
     }*/
@@ -96,18 +83,39 @@ class PresentationController extends Controller
     }*/
 
     /**
+     * Displays a single Presentation model.
+     * @param string $slug
+     * @return mixed
+     */
+    public function actionSlug($slug)
+    {
+        $model = Presentation::find()->where(['public_url' => $slug])->one();
+        if (!is_null($model)) {
+            return $this->render('view', [
+                'model' => $model,
+            ]);
+        }
+        throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
+
+    /**
      * Finds the Status model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
      * @return Status the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    /*protected function findModel($id)
+    protected function findModel($id)
     {
         if (($model = Status::findOne($id)) !== null) {
+            
+            // TODO: check that this model is public and not private
+            // check user is in viewer or editor table
+            // current date is between publication and expiration
+            
             return $model;
         }
         
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
-    }*/
+    }
 }

@@ -41,6 +41,11 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'presentation' => 'presentation/index',
+                'presentation/index' => 'presentation/index',
+                'presentation/presentation/<slug:\d+>' => 'presentation/presentation',
+                'presentation/<slug>' => 'presentation/slug',
+                'defaultRoute' => '/site/index',
             ],
         ],
         'view' => [

@@ -28,6 +28,7 @@ class m180118_155727_create_presentation_table extends Migration
             'description' => Schema::TYPE_TEXT . ' NULL',
             'is_public' => Schema::TYPE_BOOLEAN . ' NOT NULL',
             'image_preview' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 0',
+            'image' => Schema::TYPE_TEXT . ' NULL',
             'created_at' => Schema::TYPE_INTEGER . ' NOT NULL',
             'updated_at' => Schema::TYPE_INTEGER . ' NOT NULL',
             'publication_date' => Schema::TYPE_DATE . ' NULL DEFAULT NULL',

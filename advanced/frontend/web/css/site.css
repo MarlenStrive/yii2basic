@@ -118,3 +118,20 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
+
+.image-preview {
+    max-width: 400px;
+}
+
+.ellipsis {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: inline-block;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.maxwidth-300 {
+    max-width: 300px;
+}

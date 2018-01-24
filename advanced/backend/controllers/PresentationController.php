@@ -127,12 +127,10 @@ class PresentationController extends Controller
         
         if ($model->load(Yii::$app->request->post())) {
             
+            $data = Yii::$app->request->post('Presentation');
+            $model->setPreviewImage($data["image-preview-content"]);
+            
             if ($model->save()) {
-                
-                $data = Yii::$app->request->post('Presentation');
-                
-                $model->savePreviewImage($data["image-preview-content"]);
-                
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -214,23 +212,6 @@ class PresentationController extends Controller
         
         return $this->redirect(['update-page', 'id' => $id, 'number' => $number - 1]);
     }
-
-    /**
-     * Displays a single Presentation model.
-     * @param string $slug
-     * @return mixed
-     */
-    /*public function actionSlug($slug)
-    {
-        // TODO: move to frontend
-        $model = Presentation::find()->where(['public_url' => $slug])->one();
-        if (!is_null($model)) {
-            return $this->render('view', [
-                'model' => $model,
-            ]);
-        }
-        throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
-    }*/
 
     /**
      * Finds the Presentation model based on its primary key value.
