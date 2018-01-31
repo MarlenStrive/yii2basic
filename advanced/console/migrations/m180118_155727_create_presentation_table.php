@@ -76,6 +76,7 @@ class m180118_155727_create_presentation_table extends Migration
         ]);
         $this->addForeignKey('fk_presentation_tag_presentation_id', 'presentation_tag', 'presentation_id', 'presentation', 'id', 'CASCADE', 'CASCADE');
         $this->addForeignKey('fk_presentation_tag_tag_id', 'presentation_tag', 'tag_id', 'tag', 'id', 'CASCADE', 'CASCADE');
+        
     }
 
     /**

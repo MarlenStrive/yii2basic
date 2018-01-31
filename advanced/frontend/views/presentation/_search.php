@@ -2,53 +2,56 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use common\models\Category;
+use dosamigos\selectize\SelectizeTextInput;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\PresentationSearch */
+/* @var $model frontend\models\PresentationSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="presentation-search">
+<div class="container presentation-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
         'method' => 'get',
         'options' => [
-            'data-pjax' => 1
+            'data-pjax' => 1,
         ],
     ]); ?>
-
-    <?= $form->field($model, 'id') ?>
-
-    <?= $form->field($model, 'user_id') ?>
-
-    <?= $form->field($model, 'title') ?>
-
-    <?= $form->field($model, 'description') ?>
-
-    <?= $form->field($model, 'is_public') ?>
-
-    <?php // echo $form->field($model, 'image_preview') ?>
-
-    <?php // echo $form->field($model, 'created_at') ?>
-
-    <?php // echo $form->field($model, 'updated_at') ?>
-
-    <?php // echo $form->field($model, 'publication_date') ?>
-
-    <?php // echo $form->field($model, 'expiration_date') ?>
-
-    <?php // echo $form->field($model, 'public_url') ?>
-
-    <?php // echo $form->field($model, 'rating') ?>
-
-    <?php // echo $form->field($model, 'category_id') ?>
-
+    
+    <div class="row">
+        <div class="col-md-6">
+            <?= $form->field($model, 'title') ?>
+        </div>
+        <div class="col-md-6">
+            <?= $form->field($model, 'category_id')->dropDownList(Category::getDataList(),
+                ['prompt' => '---- Select category ----'])->label(Yii::t('app', 'Category')) ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <?= $form->field($model, 'username') ?>
+        </div>
+        <div class="col-md-6">
+            <?= $form->field($model, 'tagNames')->widget(SelectizeTextInput::className(), [
+                'loadUrl' => ['tag/list'],
+                'options' => ['class' => 'form-control'],
+                'clientOptions' => [
+                    'plugins' => ['remove_button'],
+                    'valueField' => 'name',
+                    'labelField' => 'name',
+                    'searchField' => ['name'],
+                    'create' => true,
+                ],
+            ])->hint('Use commas to separate tags') ?>
+        </div>
+    </div>
+    
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default']) ?>
     </div>
-
+    
     <?php ActiveForm::end(); ?>
 
 </div>

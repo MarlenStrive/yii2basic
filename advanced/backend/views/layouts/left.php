@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use common\helpers\Permission;
 
 /* @var $profile dektrium\user\models\Profile */
 $profile = Yii::$app->user->identity->profile;
@@ -22,14 +23,20 @@ $profile = Yii::$app->user->identity->profile;
             </div>
         </div>
 
+        <?php
+            $menuItems = [['label' => Yii::t('app', 'Presentations'), 'icon' => 'file-code-o', 'url' => ['/presentation']]];
+            if (Yii::$app->user->can(Permission::MANAGE_CATEGORIES)) {
+                $menuItems[] = ['label' => Yii::t('app', 'Categories'), 'icon' => 'users', 'url' => ['/category']];
+            }
+            if (Yii::$app->user->can(Permission::MANAGE_USERS)) {
+                $menuItems[] = ['label' => Yii::t('app', 'Users'), 'icon' => 'users', 'url' => ['/user/admin/index']];
+            }
+            $menuItems[] = ['label' => Yii::t('app', 'Profile'), 'icon' => 'user', 'url' => ['/user/settings/profile']];
+        ?>
         <?= dmstr\widgets\Menu::widget(
             [
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
-                'items' => [
-                    ['label' => 'Presentations', 'icon' => 'file-code-o', 'url' => ['/presentation']],
-                    ['label' => 'Categories', 'icon' => 'users', 'url' => ['/category']], // if admin, if user has permission to view Categories list - use RBAC
-                    ['label' => 'Users', 'icon' => 'users', 'url' => ['/user/admin/index']], // if admin
-                ],
+                'items' => $menuItems,
             ]
         ) ?>
 

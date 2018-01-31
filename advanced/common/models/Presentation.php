@@ -158,7 +158,7 @@ class Presentation extends ActiveRecord
         
         $this->user_id = $currentUserId;
         $this->rating = self::getCurrentRating($currentUserId);
-        $this->is_public = false;
+        $this->is_public = 0;
     }
 
     public static function getCurrentRating($userId)
@@ -264,7 +264,6 @@ class Presentation extends ActiveRecord
     public function getRandomRows($number)
     {
         return Presentation::find()
-            //->where('is_public = 1')
             ->public()
             ->andWhere('publication_date IS NULL OR NOW() >= publication_date')
             ->andWhere('expiration_date IS NULL OR NOW() <= expiration_date')
@@ -283,11 +282,44 @@ class Presentation extends ActiveRecord
         $currentUserId = Yii::$app->user->identity->id;
         
         return Presentation::find()
-            ->leftJoin('presentation_viewer pv', 'pv.presentation_id = id AND pv.user_id = :user_id', ['user_id' => $currentUserId])
-            ->leftJoin('presentation_editor pe', 'pe.presentation_id = id AND pe.user_id = :user_id', ['user_id' => $currentUserId])
+            ->leftJoin('presentation_viewer pv', 'pv.presentation_id = presentation.id AND pv.user_id = :user_id', ['user_id' => $currentUserId])
+            ->leftJoin('presentation_editor pe', 'pe.presentation_id = presentation.id AND pe.user_id = :user_id', ['user_id' => $currentUserId])
             ->where('publication_date IS NULL OR NOW() >= publication_date')
             ->andWhere('expiration_date IS NULL OR NOW() <= expiration_date')
             ->andWhere('is_public = 1 OR pv.presentation_id IS NOT NULL OR pe.presentation_id IS NOT NULL');
+    }
+
+    /**
+     * Return number of presentations, shown on the frontend for the $userId
+     * 
+     * @param integer $userId
+     * @return integer
+     */
+    public static function getPublicPresentationsCount($userId)
+    {
+        return Presentation::find()
+            ->public()
+            ->where(['user_id' => $userId])
+            ->andWhere('publication_date IS NULL OR NOW() >= publication_date')
+            ->andWhere('expiration_date IS NULL OR NOW() <= expiration_date')
+            ->count();
+    }
+
+    /**
+     * Returns array of pages for the form dropdown
+     */
+    public function getPagesOptionsList()
+    {
+        $pagesList = [];
+        
+        $pagesCount = $this->getPagesCount();
+        if ($pagesCount > 0) {
+            for ($i = 1; $i <= $pagesCount; $i++) {
+                $pagesList[$i] = $i;
+            }
+        }
+        
+        return $pagesList;
     }
 
 }

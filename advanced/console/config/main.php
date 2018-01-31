@@ -26,7 +26,8 @@ return [
                 '@app/migrations',
                 '@yii/rbac/migrations',
                 '@vendor/dektrium/yii2-user/migrations',
-                //'@vendor/tigrov/yii2-country/src/migrations',
+                '@vendor/rmrevin/yii2-comments/migrations',
+                //'@vendor/filsh/yii2-oauth2-server/migrations',
             ],
         ],
     ],
@@ -38,6 +39,11 @@ return [
                     'levels' => ['error', 'warning'],
                 ],
             ],
+        ],
+    ],
+    'modules' => [
+        'user' => [
+            'class' => 'dektrium\user\Module',
         ],
     ],
     'params' => $params,

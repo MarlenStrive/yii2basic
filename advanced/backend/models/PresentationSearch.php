@@ -1,11 +1,12 @@
 <?php
 
-namespace common\models;
+namespace backend\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\Presentation;
+use common\helpers\Permission;
 
 /**
  * PresentationSearch represents the model behind the search form of `common\models\Presentation`.
@@ -43,8 +44,11 @@ class PresentationSearch extends Presentation
     {
         $query = Presentation::find();
 
-        // add conditions that should always apply here
-
+        if (!Yii::$app->user->can(Permission::MANAGE_PRESENTATION)) {
+            // 'user' can see just own presentations
+            $query->andFilterWhere(['user_id' => Yii::$app->user->identity->id]);
+        }
+        
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

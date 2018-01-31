@@ -43,8 +43,10 @@ return [
             'rules' => [
                 'presentation' => 'presentation/index',
                 'presentation/index' => 'presentation/index',
-                'presentation/presentation/<slug:\d+>' => 'presentation/presentation',
+                'presentation/content/<slug>' => 'presentation/content',
                 'presentation/<slug>' => 'presentation/slug',
+                'profile/<slug>' => 'profile/slug',
+                'tag/list' => 'tag/list',
                 'defaultRoute' => '/site/index',
             ],
         ],

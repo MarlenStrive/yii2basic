@@ -22,10 +22,6 @@ return [
                 ],
             ],
         ],
-        /*'user' => [
-            'class' => 'dektrium\user\models\User',
-            'identityClass' => 'common\models\User',
-        ],*/
     ],
     'modules' => [
         'user' => [
@@ -35,11 +31,19 @@ return [
             'confirmWithin' => 21600,
             'cost' => 12,
             'modelMap' => [
-                'User' => 'common\models\User',
+                'User' => [
+                    'class' => 'common\models\User',
+                    'on ' . \common\models\User::AFTER_CREATE => ['common\models\User', 'afterCreate'],
+                    'on ' . \common\models\User::AFTER_REGISTER => ['common\models\User', 'afterRegister'],
+                ],
                 'Profile' => 'common\models\Profile',
             ],
             'admins' => ['admin'],
-            //'on ' . \common\models\User::EVENT_AFTER_INSERT => ['common\models\User', 'afterInsert'],
+        ],
+        'comments' => [
+            'class' => 'rmrevin\yii\module\Comments\Module',
+            'userIdentityClass' => 'common\models\User',
+            'useRbac' => true,
         ],
     ],
 ];

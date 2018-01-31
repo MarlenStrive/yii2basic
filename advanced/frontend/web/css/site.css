@@ -135,3 +135,17 @@ a.desc:after {
 .maxwidth-300 {
     max-width: 300px;
 }
+
+.profile-bio {
+    margin: 10px;
+}
+
+.presentation-comment {
+    margin: 20px 0;
+}
+
+.view-small-image-preview {
+    width: 250px;
+    height: 250px;
+}
+

@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\PresentationSearch */
@@ -19,32 +20,41 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        //'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'user_id',
-            'title',
-            'description:ntext',
-            'is_public',
-            //'image_preview',
-            //'created_at',
-            //'updated_at',
-            //'publication_date',
-            //'expiration_date',
-            //'public_url:url',
-            //'rating',
-            //'category_id',
             
             [
-                'class' => 'yii\grid\ActionColumn',
-                'template' => '{view}',
-                'buttons' => [
-                'view' => function ($url, $model) {
-                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', 'presentation/' . $model->public_url, ['title' => Yii::t('yii', 'View'),]);
-                    }
-                ],
+                'label' => Yii::t('app', 'Title'),
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return Html::a($model->title, ['presentation/slug', 'slug' => $model->public_url],
+                            ['class' => 'maxwidth-300 ellipsis', 'data-toggle' => 'tooltip', 'title' => Html::encode($model->title)]);
+                },
+            ],
+            /*[
+                'label' => Yii::t('app', 'User'),
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return Html::a($model->user->username, ['profile/slug', 'slug' => $model->user->username]);
+                },
+            ],*/
+            'user.username',
+            [
+                'label' => Yii::t('app', 'Image Preview'),
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return '<div class="view-small-image-preview">' . $this->render('_image_preview', ['model' => $model]) . '</div>';
+                },
+            ],
+            'created_at:datetime',
+            'rating',
+            'category.category',
+            [
+                'label' => Yii::t('app', 'Tags'),
+                'value' => function ($model) {
+                    return implode(', ', ArrayHelper::getColumn($model->tags, 'name'));
+                },
             ],
         ],
     ]); ?>

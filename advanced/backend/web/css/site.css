@@ -7,7 +7,6 @@ body {
     padding: 0px !important;
 }
 
-
 .wrap {
     min-height: 100%;
     height: auto;
@@ -126,4 +125,13 @@ a.desc:after {
 
 .hide {
     display: none;
+}
+
+.view-image-preview {
+    width: 200px;
+    height: 200px;
+}
+.view-small-image-preview {
+    width: 100px;
+    height: 100px;
 }

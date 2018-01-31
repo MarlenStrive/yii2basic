@@ -2,24 +2,81 @@
 
 namespace common\models;
 
+use Yii;
 use dektrium\user\models\User as BaseUser;
 use yii\helpers\ArrayHelper;
+use yii\base\Event;
+use rmrevin\yii\module\Comments\interfaces\CommentatorInterface;
 
-class User extends BaseUser
+class User extends BaseUser implements CommentatorInterface
 {
     /**
+     * Get list of users with the role 'user'
+     * 
      * @return array 
      */
-    public static function getListData()
+    public static function getUsersListData()
     {
-        // TODO: this list depends of the role of the current user
-        $users = User::find()->all();
+        $userIds = Yii::$app->authManager->getUserIdsByRole('user');
+        $userIdsWithoutCurrent = array_diff($userIds, [Yii::$app->user->identity->id]);
+        
+        $users = User::find()->where(['id' => $userIdsWithoutCurrent])->all();
+        
         return ArrayHelper::map($users, 'id', 'username');
     }
-    
-    public static function afterInsert($event){
-        var_dump($event);
-        exit('UserEvents::handleBeforeLogin');
+
+    /**
+     * Finds user by username
+     *
+     * @param string $username
+     * @return static|null
+     */
+    public static function findByUsername($username)
+    {
+        return self::findOne(['username' => $username]);
+    }
+
+    /**
+     * Trigger for the event AFTER_CREATE
+     * @param Event $event
+     */
+    public static function afterCreate($event)
+    {
+        // add moderator role to the created user
+        $auth = Yii::$app->authManager;
+        $auth->assign($auth->getRole('moderator'), $event->sender->id);
+    }
+
+    /**
+     * Trigger for the event AFTER_REGISTER
+     * @param Event $event
+     */
+    public static function afterRegister($event)
+    {
+        // add 'user' role to the registered user
+        $auth = Yii::$app->authManager;
+        $auth->assign($auth->getRole('user'), $event->sender->id);
+    }
+
+    public function getRoles()
+    {
+        $roles = Yii::$app->authManager->getRolesByUser($this->id);
+        return ArrayHelper::getColumn($roles, 'name');
+    }
+
+    public function getCommentatorAvatar()
+    {
+        return $this->profile->getAvatarUrl(25);
+    }
+
+    public function getCommentatorName()
+    {
+        return $this->username;
+    }
+
+    public function getCommentatorUrl()
+    {
+        return ['profile/slug', 'slug' => $this->username];
     }
 
 }

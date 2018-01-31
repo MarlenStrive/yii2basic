@@ -3,11 +3,11 @@
 use yii\db\Migration;
 
 /**
- * Class m180115_155432_add_admin_user
+ * Class m180126_155432_add_init_data
  */
-class m180115_155432_add_admin_user extends Migration
+class m180126_155432_add_init_data extends Migration
 {
-    public $adminId = 1;
+    //public $adminId = 1;
     
     /**
      * @inheritdoc
@@ -23,14 +23,15 @@ class m180115_155432_add_admin_user extends Migration
             'updated_at' => time(),
         ]);
         
+        $adminId = $this->getUserId('admin');
+        
         $auth = Yii::$app->authManager;
         $role = $auth->getRole('admin');
-        $auth->assign($role, $this->adminId);
+        $auth->assign($role, $adminId);
         
         $this->insert('profile', [
-            'user_id' => $this->adminId,
+            'user_id' => $adminId,
         ]);
-        
     }
 
     /**
@@ -38,11 +39,18 @@ class m180115_155432_add_admin_user extends Migration
      */
     public function safeDown()
     {
+        $adminId = $this->getUserId('admin');
+        
         $auth = Yii::$app->authManager;
         $role = $auth->getRole('admin');
-        $auth->revokeAll($this->adminId);
+        $auth->revokeAll($adminId);
         
         $this->delete('user', 'username = :username', [':username' => 'admin']);
     }
 
+    private function getUserId($username)
+    {
+        $sql = 'select id from user where username = :username';
+        return Yii::$app->db->createCommand($sql, [':username' => $username])->queryScalar();
+    }
 }

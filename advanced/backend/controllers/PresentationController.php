@@ -4,11 +4,13 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Presentation;
-use common\models\PresentationSearch;
+use backend\models\PresentationSearch;
 use common\models\PresentationPage;
 use yii\web\Controller;
+use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use common\helpers\Permission;
 //use yii\widgets\ActiveForm;
 
 /**
@@ -26,6 +28,35 @@ class PresentationController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['index'],
+                        'roles' => ['@'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['view', 'content'],
+                        'roles' => [Permission::VIEW_PRESENTATION],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['create'],
+                        'roles' => [Permission::CREATE_PRESENTATION],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['delete', 'delete-page', 'finish-update', 'new-page', 'update', 'update-page'],
+                        //'roles' => [Permission::MANAGE_PRESENTATION],
+                        'matchCallback' => function ($rule, $action) {
+                            $model = $this->findModel(Yii::$app->getRequest()->get('id'));
+                            return Yii::$app->getUser()->can(Permission::MANAGE_PRESENTATION, ['presentation' => $model]);
+                        }
+                    ],
                 ],
             ],
         ];
@@ -65,7 +96,7 @@ class PresentationController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionPresentation($id)
+    public function actionContent($id)
     {
         return $this->renderAjax('viewIframe', [
             'model' => $this->findModel($id),

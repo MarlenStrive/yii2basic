@@ -52,7 +52,7 @@ return [
                 'presentation/updatePage/<id:\d+>/<number:\d+>' => 'presentation/update-page',
                 'presentation/finishUpdate/<id:\d+>' => 'presentation/finish-update',
                 'presentation/deletePage/<id:\d+>/<number:\d+>' => 'presentation/delete-page',
-                'presentation/presentation/<id:\d+>' => 'presentation/presentation',
+                'presentation/content/<id:\d+>' => 'presentation/content',
                 'tag/list' => 'tag/list',
                 'defaultRoute' => '/site/index',
             ],

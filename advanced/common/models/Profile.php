@@ -67,4 +67,44 @@ class Profile extends BaseProfile
         return parent::afterFind();
     }
 
+    /**
+     * Returns a profile user name that could be shown to public
+     * 
+     * @return string
+     */
+    public function getPublicName()
+    {
+        $names = [];
+        
+        $publicFields = (is_array($this->public_fields)) ? $this->public_fields : explode(',', $this->public_fields);
+        if (in_array('name', $publicFields) && !empty($this->name)) {
+            $names[] = $this->name;
+        }
+        if (in_array('second_name', $publicFields) && !empty($this->second_name)) {
+            $names[] = $this->second_name;
+        }
+        
+        return implode(' ', $names);
+    }
+
+    /**
+     * Returns a location that could be shown to public
+     *
+     * @return string
+     */
+    public function getPublicLocation()
+    {
+        $location = [];
+        
+        $publicFields = (is_array($this->public_fields)) ? $this->public_fields : explode(',', $this->public_fields);
+        if (in_array('country', $publicFields) && !empty($this->country)) {
+            $location[] = $this->country;
+        }
+        if (in_array('city', $publicFields) && !empty($this->city)) {
+            $location[] = $this->city;
+        }
+        
+        return implode(', ', $location);
+    }
+
 }

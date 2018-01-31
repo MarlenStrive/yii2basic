@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
-/* @var $searchModel common\models\PresentationSearch */
+/* @var $searchModel backend\models\PresentationSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Presentations');
@@ -27,18 +27,29 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'user_id',
+            'user.username',
             'title',
-            'description:ntext',
-            'is_public',
-            //'image_preview',
+            [
+                'label' => Yii::t('app', 'Is Public'),
+                'value' => function ($model) {
+                    return ($model->is_public) ? Yii::t('app', 'Yes') : Yii::t('app', 'No');
+                },
+            ],
+            [
+                'label' => Yii::t('app', 'Image Preview'),
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return '<div class="view-small-image-preview">' . $this->render('_image_preview', ['model' => $model]) . '</div>';
+                },
+            ],
             //'created_at',
             //'updated_at',
             //'publication_date',
             //'expiration_date',
-            //'public_url:url',
-            //'rating',
-            //'category_id',
+            'public_url',
+            'rating',
+            
+            'category.category',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

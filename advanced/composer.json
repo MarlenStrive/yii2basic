@@ -25,7 +25,9 @@
         "2amigos/yii2-date-picker-widget" : "~1.0",
         "2amigos/yii2-taggable-behavior": "~1.0",
         "2amigos/yii2-selectize-widget": "~1.0",
-        "voskobovich/yii2-linker-behavior": "^4.0"
+        "voskobovich/yii2-linker-behavior": "^4.0",
+        "filsh/yii2-oauth2-server": "~2.0",
+        "rmrevin/yii2-comments": "~1.4"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

@@ -26,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
+    <?php $publicUrl = Yii::$app->urlManagerFrontend->createAbsoluteUrl('presentation/' . $model->public_url); ?>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
@@ -33,8 +34,16 @@ $this->params['breadcrumbs'][] = $this->title;
             'user_id',
             'title',
             'description:html',
-            'is_public',
-            'image_preview',
+            [
+                'label' => Yii::t('app', 'Is Public'),
+                'value' => ($model->is_public) ? Yii::t('app', 'Yes') : Yii::t('app', 'No'),
+            ],
+            [
+                'label' => Yii::t('app', 'Image Preview'),
+                'format' => 'raw',
+                'value' => Yii::t('app', '{number} page', ['number' => $model->image_preview])
+                            . ' <div class="view-image-preview">' . $this->render('_image_preview', ['model' => $model]) . '</div>',
+            ],
             'created_at:datetime',
             'updated_at:datetime',
             'publication_date',
@@ -42,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => Yii::t('app', 'Public Url'),
                 'format' => 'raw',
-                'value' => Html::a($model->public_url, Yii::$app->urlManagerFrontend->createAbsoluteUrl('presentation/' . $model->public_url), ['target' => '_blank']),
+                'value' => Html::a($publicUrl, $publicUrl, ['target' => '_blank']),
             ],
             'rating',
             [

@@ -3,8 +3,7 @@ namespace backend\controllers;
 
 use Yii;
 use yii\web\Controller;
-//use yii\filters\VerbFilter;
-//use yii\filters\AccessControl;
+use yii\filters\AccessControl;
 use common\models\Tag;
 use yii\web\Response;
 
@@ -16,46 +15,23 @@ class TagController extends Controller
     /**
      * @inheritdoc
      */
-    /*public function behaviors()
+    public function behaviors()
     {
         return [
             'access' => [
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error'],
-                        'allow' => true,
-                    ],
-                    [
-                        'actions' => ['logout', 'index'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
                 ],
             ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
-        ];
-    }*/
-
-    /**
-     * @inheritdoc
-     */
-    public function actions()
-    {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
         ];
     }
 
     /**
-     * return matched tags
+     * Return matched tags
      *
      * @return string json
      */
