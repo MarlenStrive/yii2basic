@@ -17,6 +17,4 @@ $content .= '</div></div>';
 
 ?>
 
-<div class="row" style="margin: auto; height:400px; width: 400px; border: 1px solid black;">
-    <?= RevealWidget::widget(['content' => $content]) ?>
-</div>
+<?= RevealWidget::widget(['content' => $content]) ?>

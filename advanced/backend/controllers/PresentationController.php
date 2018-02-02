@@ -11,7 +11,6 @@ use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\helpers\Permission;
-//use yii\widgets\ActiveForm;
 
 /**
  * PresentationController implements the CRUD actions for Presentation model.
@@ -51,10 +50,9 @@ class PresentationController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['delete', 'delete-page', 'finish-update', 'new-page', 'update', 'update-page'],
-                        //'roles' => [Permission::MANAGE_PRESENTATION],
                         'matchCallback' => function ($rule, $action) {
-                            $model = $this->findModel(Yii::$app->getRequest()->get('id'));
-                            return Yii::$app->getUser()->can(Permission::MANAGE_PRESENTATION, ['presentation' => $model]);
+                            $id = Yii::$app->getRequest()->get('id');
+                            return Yii::$app->getUser()->can(Permission::MANAGE_PRESENTATION, ['id' => $id]);
                         }
                     ],
                 ],
@@ -162,6 +160,7 @@ class PresentationController extends Controller
             $model->setPreviewImage($data["image-preview-content"]);
             
             if ($model->save()) {
+                $model->sendNotificationEmail();
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -253,10 +252,17 @@ class PresentationController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Presentation::findOne($id)) !== null) {
+        if (Yii::$app->user->can(Permission::MANAGE_PRESENTATION)) {
+            $model = Presentation::findOne($id);
+        } else {
+            $query = Presentation::find();
+            Presentation::setEditorQueryConditions($query);
+            $model = $query->andWhere(['id' => $id])->one();
+        }
+        
+        if ($model !== null) {
             return $model;
         }
-
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
 }

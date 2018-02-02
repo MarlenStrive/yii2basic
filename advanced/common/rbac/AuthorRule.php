@@ -20,6 +20,12 @@ class AuthorRule extends Rule
      */
     public function execute($user, $item, $params)
     {
-        return isset($params['presentation']) ? $params['presentation']->user_id == $user : false;
+        if (!isset($params['id'])) {
+            return false;
+        }
+        
+        $query = Presentation::find();
+        Presentation::setEditorQueryConditions($query);
+        return ($query->andWhere(['id' => $params['id']])->count() > 0) ? true : false;
     }
 }

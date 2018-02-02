@@ -19,20 +19,28 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="row">
         <div class="col-md-6">
+            <div class="view-big-image-preview">
+                <?= $this->render('_image_preview', ['model' => $model]) ?>
+            </div>
+            <!-- 
             <div class="row" style="margin: auto; height:400px; width: 400px; border: 1px solid black;">
                 <iframe id="slides" width="400" height="400" marginheight="0" marginwidth="0"
                     src="<?= Yii::$app->getUrlManager()->createUrl(['presentation/content', 'slug' => $model->public_url]) ?>">
                 </iframe>
             </div>
+             -->
         </div>
         <div class="col-md-6">
+            <p>
+                <?= Html::a(Yii::t('app', 'View Presentation'), ['presentation/content', 'slug' => $model->public_url], ['class' => 'btn btn-lg btn-success', 'target' => '_blank']) ?>
+            </p>
             <?= DetailView::widget([
                 'model' => $model,
                 'attributes' => [
                     [
                         'label' => Yii::t('app', 'Author'),
                         'format' => 'raw',
-                        'value' => Html::a($model->user->username, ['profile/slug', 'slug' => $model->user->username], ['target' => '_blank']),
+                        'value' => Html::a($model->user->username, ['profile/slug', 'slug' => $model->user->username]),
                     ],
                     'created_at:datetime',
                     'rating',
@@ -53,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php if (!Yii::$app->user->can(CommentPermission::CREATE)) { ?>
         <p class="warning"></p>
         <div class="alert alert-warning">
-            <strong>Warning!</strong> You should have at least one presentation on this site to have ability
+            <strong>Warning!</strong> You should have at least one public presentation on this site to have ability
             to leave comments.
         </div>
     <?php } ?>

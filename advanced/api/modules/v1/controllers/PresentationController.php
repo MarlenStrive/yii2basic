@@ -36,7 +36,7 @@ class PresentationController extends ActiveController
     public function actionUpdatePage($slug, $number)
     {
         $presentation = Presentation::findOne(['public_url' => $slug]);
-        if (is_null($presentation) || !Yii::$app->user->can(Permission::MANAGE_PRESENTATION, ['presentation' => $presentation])) {
+        if (is_null($presentation) || !Yii::$app->user->can(Permission::MANAGE_PRESENTATION, ['id' => $presentation->id])) {
             throw new NotFoundHttpException(Yii::t('app', 'The requested presentation does not exist.'));
         }
         

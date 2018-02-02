@@ -28,26 +28,6 @@ class RevealWidget extends Widget
         $view = $this->getView();
         $asset = RevealWidgetAsset::register($view);
         
-        /*
-        $js = "
-            Reveal.initialize({
-                controls: true,
-                progress: true,
-                history: true,
-                center: true,
-                
-                theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-                transition: Reveal.getQueryHash().transition || 'fade', // default/cube/page/concave/zoom/linear/fade/none
-                
-                // Optional libraries used to extend on reveal.js
-                dependencies: [
-                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
-                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-                ]
-            });
-        ";
-        */
-        
         $js = "
             Reveal.initialize({
                 controls: true,
@@ -60,7 +40,6 @@ class RevealWidget extends Widget
                 center: true
             });
         ";
-        
         
         $view->registerJs($js);
     }

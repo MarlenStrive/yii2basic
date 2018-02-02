@@ -26,6 +26,7 @@ class m180118_155727_create_presentation_table extends Migration
             'user_id' => Schema::TYPE_INTEGER . ' NOT NULL',
             'title' => Schema::TYPE_STRING . ' NOT NULL',
             'description' => Schema::TYPE_TEXT . ' NULL',
+            'description_pure' => Schema::TYPE_TEXT . ' NULL',
             'is_public' => Schema::TYPE_BOOLEAN . ' NOT NULL',
             'image_preview' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 0',
             'image' => Schema::TYPE_TEXT . ' NULL',

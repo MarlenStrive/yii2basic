@@ -28,7 +28,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'user.username',
-            'title',
+            [
+                'attribute' => 'title',
+                'contentOptions' => ['class' => 'word-wrap'],
+            ],
+            [
+                'attribute' => 'description_pure',
+                'contentOptions' => function ($model) {
+                    return ['class' => 'decription-cell ellipsis', 'data-toggle' => 'tooltip', 'title' => $model->description_pure];
+                }
+            ],
             [
                 'label' => Yii::t('app', 'Is Public'),
                 'value' => function ($model) {
@@ -48,11 +57,22 @@ $this->params['breadcrumbs'][] = $this->title;
             //'expiration_date',
             'public_url',
             'rating',
-            
             'category.category',
+            [
+                'label' => Yii::t('app', 'Comments Count'),
+                'attribute' => 'commentsCount',
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
     <?php Pjax::end(); ?>
 </div>
+
+<?php 
+$js = <<< 'SCRIPT'
+$(function () { 
+    $("[data-toggle='tooltip']").tooltip(); 
+});;
+SCRIPT;
+$this->registerJs($js);

@@ -44,12 +44,12 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Finish Presentation');
             'create' => true,
         ],
     ])->hint('Use commas to separate tags') ?>
-
+    
+    <?php $withoutCurrentUser = ($model->user_id == Yii::$app->user->identity->id); ?>
     <?= $form->field($model, 'is_public')->checkBox(['selected' => $model->is_public]) ?>
+    <?= $form->field($model, 'editor_ids')->dropDownList(User::getUsersListData($withoutCurrentUser), ['multiple' => true]) ?>
 
-    <?= $form->field($model, 'editor_ids')->dropDownList(User::getUsersListData(), ['multiple' => true]) ?>
-
-    <?= $form->field($model, 'viewer_ids')->dropDownList(User::getUsersListData(), ['multiple' => true]) ?>
+    <?= $form->field($model, 'viewer_ids')->dropDownList(User::getUsersListData($withoutCurrentUser), ['multiple' => true]) ?>
 
     <div class="form-group">
         <?= Html::button(Yii::t('app', 'Save'), ['class' => 'btn btn-success', 'id' => 'save-btn']) ?>

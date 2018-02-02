@@ -2,11 +2,9 @@
 
 namespace backend\models;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\Presentation;
-use common\helpers\Permission;
 
 /**
  * PresentationSearch represents the model behind the search form of `common\models\Presentation`.
@@ -20,7 +18,7 @@ class PresentationSearch extends Presentation
     {
         return [
             [['id', 'user_id', 'is_public', 'created_at', 'updated_at', 'rating', 'category_id'], 'integer'],
-            [['title', 'description', 'image_preview', 'publication_date', 'expiration_date', 'public_url'], 'safe'],
+            [['title', 'description_pure', 'image_preview', 'publication_date', 'expiration_date', 'public_url'], 'safe'],
         ];
     }
 
@@ -43,11 +41,7 @@ class PresentationSearch extends Presentation
     public function search($params)
     {
         $query = Presentation::find();
-
-        if (!Yii::$app->user->can(Permission::MANAGE_PRESENTATION)) {
-            // 'user' can see just own presentations
-            $query->andFilterWhere(['user_id' => Yii::$app->user->identity->id]);
-        }
+        Presentation::setEditorQueryConditions($query);
         
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -75,8 +69,7 @@ class PresentationSearch extends Presentation
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'image_preview', $this->image_preview])
+            ->andFilterWhere(['like', 'description_pure', $this->description_pure])
             ->andFilterWhere(['like', 'public_url', $this->public_url]);
 
         return $dataProvider;

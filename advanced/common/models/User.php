@@ -13,15 +13,17 @@ class User extends BaseUser implements CommentatorInterface
     /**
      * Get list of users with the role 'user'
      * 
+     * @param boolean $withoutCurrentUser
      * @return array 
      */
-    public static function getUsersListData()
+    public static function getUsersListData($withoutCurrentUser = true)
     {
         $userIds = Yii::$app->authManager->getUserIdsByRole('user');
-        $userIdsWithoutCurrent = array_diff($userIds, [Yii::$app->user->identity->id]);
+        if ($withoutCurrentUser) {
+            $userIds = array_diff($userIds, [Yii::$app->user->identity->id]);
+        }
         
-        $users = User::find()->where(['id' => $userIdsWithoutCurrent])->all();
-        
+        $users = User::find()->where(['id' => $userIds])->all();
         return ArrayHelper::map($users, 'id', 'username');
     }
 

@@ -135,3 +135,22 @@ a.desc:after {
     width: 100px;
     height: 100px;
 }
+
+.word-wrap {
+    max-width: 300px;
+    white-space: normal !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+.decription-cell {
+    max-width: 300px;
+}
+
+.ellipsis {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: inline-block;
+    white-space: nowrap;
+    vertical-align: middle;
+}

@@ -60,3 +60,11 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
     <?php Pjax::end(); ?>
 </div>
+
+<?php 
+$js = <<< 'SCRIPT'
+$(function () { 
+    $("[data-toggle='tooltip']").tooltip(); 
+});;
+SCRIPT;
+$this->registerJs($js);

@@ -24,7 +24,7 @@ class PresentationSearch extends Presentation
     {
         return [
             [['user_id', 'is_public', 'created_at', 'updated_at', 'rating', 'category_id'], 'integer'],
-            [['title', 'description', 'image_preview', 'publication_date', 'expiration_date', 'public_url'], 'safe'],
+            [['title', 'publication_date', 'expiration_date', 'public_url'], 'safe'],
             [['username', 'tagNames'], 'safe'],
         ];
     }
@@ -48,7 +48,7 @@ class PresentationSearch extends Presentation
     public function search($params)
     {
         $query = Presentation::getUserQueryConditions();
-        $query->distinct(true)->joinWith(['user']);
+        $query->joinWith(['user']);
         
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -69,7 +69,6 @@ class PresentationSearch extends Presentation
         
         // grid filtering conditions
         $query->andFilterWhere([
-            //'id' => $this->id,
             'user_id' => $this->user_id,
             'is_public' => $this->is_public,
             'created_at' => $this->created_at,

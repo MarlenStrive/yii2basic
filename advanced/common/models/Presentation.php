@@ -7,6 +7,8 @@ use yii\db\ActiveRecord;
 use yii\behaviors\SluggableBehavior;
 use dosamigos\taggable\Taggable;
 use voskobovich\linker\LinkerBehavior;
+use rmrevin\yii\module\Comments\models\Comment;
+use common\helpers\Permission;
 
 /**
  * This is the model class for table "presentation".
@@ -15,6 +17,7 @@ use voskobovich\linker\LinkerBehavior;
  * @property int $user_id
  * @property string $title
  * @property string $description
+ * @property string $description_pure
  * @property int $is_public
  * @property int $image_preview
  * @property text $image
@@ -111,6 +114,7 @@ class Presentation extends ActiveRecord
             'user_id' => Yii::t('app', 'User ID'),
             'title' => Yii::t('app', 'Title'),
             'description' => Yii::t('app', 'Description'),
+            'description_pure' => Yii::t('app', 'Description'),
             'is_public' => Yii::t('app', 'Is Public'),
             'image_preview' => Yii::t('app', 'Image Preview'),
             'created_at' => Yii::t('app', 'Created At'),
@@ -159,6 +163,13 @@ class Presentation extends ActiveRecord
         $this->user_id = $currentUserId;
         $this->rating = self::getCurrentRating($currentUserId);
         $this->is_public = 0;
+    }
+
+    public function beforeSave($insert)
+    {
+        $this->description_pure = strip_tags($this->description);
+        
+        return parent::beforeSave($insert);
     }
 
     public static function getCurrentRating($userId)
@@ -244,11 +255,10 @@ class Presentation extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    // TODO: remove, copy of getTags()
-    /*public function getPresentationTags()
+    public function getPresentationTags()
     {
         return $this->hasMany(PresentationTag::className(), ['presentation_id' => 'id']);
-    }*/
+    }
 
     /**
      * @return \yii\db\ActiveQuery
@@ -290,6 +300,22 @@ class Presentation extends ActiveRecord
     }
 
     /**
+     * Set conditions to check if user can edit the presentation
+     *
+     * @param \yii\db\ActiveQuery $query
+     */
+    public static function setEditorQueryConditions(&$query)
+    {
+        if (!Yii::$app->user->can(Permission::MANAGE_PRESENTATION)) {
+            // 'user' can edit just own presentations and presentations with editor rights
+            $currentUserId = Yii::$app->user->identity->id;
+            
+            $query->leftJoin('presentation_editor pe', 'pe.presentation_id = presentation.id AND pe.user_id = :user_id', ['user_id' => $currentUserId])
+                ->where("presentation.user_id = {$currentUserId} OR pe.presentation_id IS NOT NULL");
+        }
+    }
+
+    /**
      * Return number of presentations, shown on the frontend for the $userId
      * 
      * @param integer $userId
@@ -320,6 +346,48 @@ class Presentation extends ActiveRecord
         }
         
         return $pagesList;
+    }
+
+    public function getCommentsCount()
+    {
+        return Comment::find()->where(['entity' => 'presentation-' . $this->id])->count();
+    }
+
+    /** 
+     * Send email to the author and editors in case of the presentation create or edit
+     */
+    public function sendNotificationEmail()
+    {
+        // find editors
+        $sql = 'select user_id from presentation_editor where presentation_id = :id';
+        $userIds = Yii::$app->db->createCommand($sql, [':id' => $this->id])->queryColumn();
+        
+        if (!in_array($this->user_id, $userIds)) {
+            // add author
+            $userIds[] = $this->user_id;
+        }
+        
+        // remove current user
+        $userIds = array_diff($userIds, [Yii::$app->user->identity->id]);
+        
+        if (count($userIds) > 0) {
+            $users = User::find()->where(['id' => $userIds])->all();
+            
+            $mail = Yii::$app
+                ->mailer
+                ->compose(
+                    ['html' => 'presentationIsUpdated-html', 'text' => 'presentationIsUpdated-text'],
+                    ['presentation' => $this]
+                )
+                ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
+                ->setSubject('Presentation "' . $this->title . '" has been updated');
+            
+            foreach ($users as $user) {
+                $mail->setTo($user->email)->send();
+            }
+        }
+        
+        return true;
     }
 
 }
