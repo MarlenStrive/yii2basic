@@ -7,8 +7,6 @@ use yii\db\Migration;
  */
 class m180126_155432_add_init_data extends Migration
 {
-    //public $adminId = 1;
-    
     /**
      * @inheritdoc
      */
@@ -24,14 +22,51 @@ class m180126_155432_add_init_data extends Migration
         ]);
         
         $adminId = $this->getUserId('admin');
+        $this->insert('profile', [
+            'user_id' => $adminId,
+        ]);
         
         $auth = Yii::$app->authManager;
         $role = $auth->getRole('admin');
         $auth->assign($role, $adminId);
         
-        $this->insert('profile', [
-            'user_id' => $adminId,
+        
+        $this->insert('user', [
+            'username' => 'moderator',
+            'password_hash' => Yii::$app->security->generatePasswordHash('moderator'),
+            'email' => 'moderator@moderator.com',
+            'auth_key' => Yii::$app->security->generateRandomString(),
+            'created_at' => time(),
+            'updated_at' => time(),
         ]);
+        
+        $moderatorId = $this->getUserId('moderator');
+        $this->insert('profile', [
+            'user_id' => $moderatorId,
+        ]);
+        
+        $auth = Yii::$app->authManager;
+        $role = $auth->getRole('moderator');
+        $auth->assign($role, $moderatorId);
+        
+        
+        $this->insert('user', [
+            'username' => 'user',
+            'password_hash' => Yii::$app->security->generatePasswordHash('user'),
+            'email' => 'user@user.com',
+            'auth_key' => Yii::$app->security->generateRandomString(),
+            'created_at' => time(),
+            'updated_at' => time(),
+        ]);
+        
+        $userId = $this->getUserId('user');
+        $this->insert('profile', [
+            'user_id' => $userId,
+        ]);
+        
+        $auth = Yii::$app->authManager;
+        $role = $auth->getRole('user');
+        $auth->assign($role, $userId);
     }
 
     /**
@@ -39,13 +74,14 @@ class m180126_155432_add_init_data extends Migration
      */
     public function safeDown()
     {
-        $adminId = $this->getUserId('admin');
-        
         $auth = Yii::$app->authManager;
-        $role = $auth->getRole('admin');
-        $auth->revokeAll($adminId);
+        $usernames = ['admin', 'moderator', 'user'];
         
-        $this->delete('user', 'username = :username', [':username' => 'admin']);
+        foreach ($usernames as $username) {
+            $userId = $this->getUserId($username);
+            $auth->revokeAll($userId);
+            $this->delete('user', 'username = :username', [':username' => $username]);
+        }
     }
 
     private function getUserId($username)

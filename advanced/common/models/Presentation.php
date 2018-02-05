@@ -172,6 +172,12 @@ class Presentation extends ActiveRecord
         return parent::beforeSave($insert);
     }
 
+    /**
+     * Calculate rating for the given user id
+     * 
+     * @param integer $userId
+     * @return integer
+     */
     public static function getCurrentRating($userId)
     {
         return Presentation::find()->where(['user_id' => $userId])->count();

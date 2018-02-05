@@ -73,7 +73,12 @@ Clearing the counters of presentations.
 
 
 
+TESTS:
 
+create database 'yii2advanced_test'
+run ./yii_test migrate
+run vendor/bin/codecept build
+run vendor/bin/codecept run
 
 
 

@@ -49,11 +49,10 @@ return [
             'confirmWithin' => 21600,
             'cost' => 12,
             'modelMap' => [
-                'User' => 'api\common\models\User', //'common\models\User',
+                'User' => 'api\common\models\User',
                 'Profile' => 'common\models\Profile',
             ],
             'admins' => ['admin'],
-            //'on ' . \common\models\User::EVENT_AFTER_INSERT => ['common\models\User', 'afterInsert'],
         ],
     ],
     'components' => [
@@ -81,8 +80,9 @@ return [
                 'POST v1/oauth2/<action:\w+>' => 'oauth2/rest/<action>',
                 'GET v1/profile' => 'v1/profile/view-own',
                 'POST v1/profile' => 'v1/profile/update-own',
-                //['class' => 'yii\rest\UrlRule', 'controller' => 'v1/presentation'], // dont need all these actions
                 'GET v1/profile' => 'v1/profile/view-own',
+                
+                //['class' => 'yii\rest\UrlRule', 'controller' => 'v1/presentation'], // dont need all these actions
                 'POST v1/presentation/<slug>/<number:\d+>' => 'v1/presentation/update-page',
             ],
         ],

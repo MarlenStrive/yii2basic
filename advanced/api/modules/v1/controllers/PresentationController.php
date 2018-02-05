@@ -14,17 +14,6 @@ class PresentationController extends ActiveController
 {
     public $modelClass = 'common\models\Presentation';
     
-    // Define custom actions
-    // public function actionAlive()
-    // {
-    //     return new ActiveDataProvider([
-    //         'query' => Proxy::find()->where(['Alive' => 1]),
-    //         'pagination' => false,
-    //     ]);
-    // }
-    
-    
-    
     /**
      * Change the page in the presentation
      * 

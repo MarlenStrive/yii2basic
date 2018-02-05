@@ -54,6 +54,8 @@ class Category extends \yii\db\ActiveRecord
     }
 
     /**
+     * Get list of categories for select input
+     * 
      * @return array
      */
     public static function getDataList()
