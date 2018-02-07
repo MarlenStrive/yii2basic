@@ -2,7 +2,6 @@
 
 namespace common\models;
 
-//use paulzi\jsonBehavior\JsonBehavior;
 use dektrium\user\models\Profile as BaseProfile;
 use yii\helpers\ArrayHelper;
 
@@ -24,7 +23,7 @@ use yii\helpers\ArrayHelper;
  * @property string  $city
  * @property string  $country
  * 
- * @property User    $user
+ * @property User $user
  */
 class Profile extends BaseProfile
 {

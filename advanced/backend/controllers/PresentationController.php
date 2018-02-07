@@ -150,6 +150,12 @@ class PresentationController extends Controller
         ]);
     }
 
+    /**
+     * Finish update the Presentation.
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException if the Presentation model cannot be found
+     */
     public function actionFinishUpdate($id)
     {
         $model = $this->findModel($id);
@@ -192,6 +198,13 @@ class PresentationController extends Controller
         ]);
     }
 
+    /**
+     * Updates an existing PresentationPage model.
+     * @param integer $id
+     * @param integer $number
+     * @return mixed
+     * @throws NotFoundHttpException if the Presentation model cannot be found
+     */
     public function actionUpdatePage($id, $number)
     {
         $page = PresentationPage::findPage($id, $number);

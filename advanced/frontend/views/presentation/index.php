@@ -32,13 +32,6 @@ $this->params['breadcrumbs'][] = $this->title;
                             ['class' => 'maxwidth-300 ellipsis', 'data-toggle' => 'tooltip', 'title' => Html::encode($model->title)]);
                 },
             ],
-            /*[
-                'label' => Yii::t('app', 'User'),
-                'format' => 'raw',
-                'value' => function ($model) {
-                    return Html::a($model->user->username, ['profile/slug', 'slug' => $model->user->username]);
-                },
-            ],*/
             'user.username',
             [
                 'label' => Yii::t('app', 'Image Preview'),

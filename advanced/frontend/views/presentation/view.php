@@ -22,13 +22,6 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="view-big-image-preview">
                 <?= $this->render('_image_preview', ['model' => $model]) ?>
             </div>
-            <!-- 
-            <div class="row" style="margin: auto; height:400px; width: 400px; border: 1px solid black;">
-                <iframe id="slides" width="400" height="400" marginheight="0" marginwidth="0"
-                    src="<?= Yii::$app->getUrlManager()->createUrl(['presentation/content', 'slug' => $model->public_url]) ?>">
-                </iframe>
-            </div>
-             -->
         </div>
         <div class="col-md-6">
             <p>

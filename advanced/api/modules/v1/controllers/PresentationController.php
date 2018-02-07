@@ -15,7 +15,7 @@ class PresentationController extends ActiveController
     public $modelClass = 'common\models\Presentation';
 
     /**
-     * Change the page in the presentation
+     * Returns presentations list for the curent user
      *
      * @return array|ActiveRecord[] presentations list for the current user
      */

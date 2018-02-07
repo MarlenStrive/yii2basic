@@ -27,7 +27,6 @@ return [
                 '@yii/rbac/migrations',
                 '@vendor/dektrium/yii2-user/migrations',
                 '@vendor/rmrevin/yii2-comments/migrations',
-                //'@vendor/filsh/yii2-oauth2-server/migrations',
             ],
         ],
     ],

@@ -2,7 +2,6 @@
 
 namespace common\tests\unit\models;
 
-use Yii;
 use common\models\Profile;
 use common\fixtures\ProfileFixture;
 

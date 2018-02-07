@@ -93,7 +93,6 @@ class PresentationCest
         
         
         $I->fillField('PresentationSearch[title]', 'paul');
-        //$I->fillField('PresentationSearch[category_id]', 3);
         $I->selectOption('PresentationSearch[category_id]', '3');
         $I->click('Search');
         $I->wait(1);

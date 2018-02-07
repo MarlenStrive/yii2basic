@@ -12,16 +12,20 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
+    'modules' => [
+        'user' => [
+            'controllerMap' => [
+                'recovery' => [
+                    'class' => 'dektrium\user\controllers\RecoveryController',
+                    'layout' => '@app/views/layouts/main-login', // to change layout for the forgot password page
+                ],
+            ],
+        ],
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
         ],
-        /*'user' => [
-            'identityClass' => 'common\models\User',
-            'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
-        ],*/
         'session' => [
             // this is the name of the session cookie used for login on the backend
             'name' => 'advanced-backend',
@@ -39,8 +43,8 @@ return [
             'errorAction' => 'site/error',
         ],
         'urlManager' => [
-            //'enablePrettyUrl' => true,
-            //'showScriptName' => false,
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
             'rules' => [
                 'presentation' => 'presentation/index',
                 'presentation/index' => 'presentation/index',
@@ -54,20 +58,12 @@ return [
                 'presentation/deletePage/<id:\d+>/<number:\d+>' => 'presentation/delete-page',
                 'presentation/content/<id:\d+>' => 'presentation/content',
                 'tag/list' => 'tag/list',
-                'defaultRoute' => '/site/index',
             ],
-        ],
-        'urlManagerFrontend' => [
-            'class' => 'yii\web\urlManager',
-            'hostInfo' => 'http://f.yii2advanced.example', // TODO: remove somewhere! - во внешний конфиг файл?!
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
         ],
         'view' => [
             'theme' => [
                 'pathMap' => [
                     '@dektrium/user/views' => '@app/views/user',
-                    //'@app/views' => '@vendor/dmstr/yii2-adminlte-asset/example-views/yiisoft/yii2-app',
                 ],
             ],
         ],

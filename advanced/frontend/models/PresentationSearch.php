@@ -2,7 +2,6 @@
 
 namespace frontend\models;
 
-//use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\Presentation;
@@ -16,7 +15,7 @@ class PresentationSearch extends Presentation
 {
     public $username;
     public $tagNames;
-    
+
     /**
      * @inheritdoc
      */

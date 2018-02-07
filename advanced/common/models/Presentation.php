@@ -183,6 +183,11 @@ class Presentation extends ActiveRecord
         return Presentation::find()->where(['user_id' => $userId])->count();
     }
 
+    /**
+     * Set image preview data to the model
+     * 
+     * @param string $imageData image raw data
+     */
     public function setPreviewImage($imageData)
     {
         /*
@@ -251,6 +256,8 @@ class Presentation extends ActiveRecord
     }
 
     /**
+     * Returns pages count for the current presentation
+     * 
      * @return integer
      */
     public function getPagesCount()
@@ -275,6 +282,9 @@ class Presentation extends ActiveRecord
     }
 
     /**
+     * Returns $number random public presentations
+     * 
+     * @param integer $number
      * @return array \yii\db\ActiveQuery
      */
     public function getRandomRows($number)
@@ -339,6 +349,8 @@ class Presentation extends ActiveRecord
 
     /**
      * Returns array of pages for the form dropdown
+     * 
+     * @return array
      */
     public function getPagesOptionsList()
     {
@@ -354,6 +366,11 @@ class Presentation extends ActiveRecord
         return $pagesList;
     }
 
+    /**
+     * Returns comments count for the current presentation
+     * 
+     * @return integer
+     */
     public function getCommentsCount()
     {
         return Comment::find()->where(['entity' => 'presentation-' . $this->id])->count();

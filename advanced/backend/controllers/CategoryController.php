@@ -42,13 +42,14 @@ class CategoryController extends Controller
 
     /**
      * Lists all Category models.
+     * 
      * @return mixed
      */
     public function actionIndex()
     {
         $searchModel = new CategorySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -57,6 +58,7 @@ class CategoryController extends Controller
 
     /**
      * Displays a single Category model.
+     * 
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -71,6 +73,7 @@ class CategoryController extends Controller
     /**
      * Creates a new Category model.
      * If creation is successful, the browser will be redirected to the 'view' page.
+     * 
      * @return mixed
      */
     public function actionCreate()
@@ -89,6 +92,7 @@ class CategoryController extends Controller
     /**
      * Updates an existing Category model.
      * If update is successful, the browser will be redirected to the 'view' page.
+     * 
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -109,6 +113,7 @@ class CategoryController extends Controller
     /**
      * Deletes an existing Category model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
+     * 
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found

@@ -64,6 +64,7 @@ class PresentationPage extends \yii\db\ActiveRecord
     /**
      * Finds the PresentationPage model based on its presentation id and number.
      * If the model is not found, a 404 HTTP exception will be thrown.
+     * 
      * @param integer $presentationId
      * @param integer $number
      * @return PresentationPage the loaded model

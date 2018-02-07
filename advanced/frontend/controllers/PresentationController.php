@@ -2,10 +2,7 @@
 namespace frontend\controllers;
 
 use Yii;
-//use yii\base\InvalidParamException;
-//use yii\web\BadRequestHttpException;
 use yii\web\Controller;
-//use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\Presentation;
 use frontend\models\PresentationSearch;
@@ -37,6 +34,7 @@ class PresentationController extends Controller
 
     /**
      * Lists all public presentation models.
+     * 
      * @return mixed
      */
     public function actionIndex()
@@ -52,6 +50,7 @@ class PresentationController extends Controller
 
     /**
      * Displays a single Presentation model.
+     * 
      * @param string $slug
      * @return mixed
      */
@@ -79,6 +78,7 @@ class PresentationController extends Controller
     /**
      * Finds the Presentation model based on its slug value.
      * If the model is not found, a 404 HTTP exception will be thrown.
+     * 
      * @param string $slug
      * @return Presentation the loaded model
      * @throws NotFoundHttpException if the model cannot be found

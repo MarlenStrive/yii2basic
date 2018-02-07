@@ -5,7 +5,6 @@ namespace console\controllers;
 use Yii;
 use yii\console\Controller;
 use yii\helpers\Console;
-//use common\models\Presentation;
 
 
 /**

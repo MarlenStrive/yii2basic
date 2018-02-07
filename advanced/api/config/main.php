@@ -73,9 +73,9 @@ return [
             ],
         ],
         'urlManager' => [
-            //'enablePrettyUrl' => true,
-            //'enableStrictParsing' => true,
-            //'showScriptName' => false,
+            'enablePrettyUrl' => true,
+            'enableStrictParsing' => true,
+            'showScriptName' => false,
             'rules' => [
                 'POST v1/oauth2/<action:\w+>' => 'oauth2/rest/<action>',
                 'GET v1/profile' => 'v1/profile/view-own',

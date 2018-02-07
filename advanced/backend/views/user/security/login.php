@@ -9,11 +9,9 @@
  * file that was distributed with this source code.
  */
 
-use dektrium\user\widgets\Connect;
 use dektrium\user\models\LoginForm;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use yii\base\Widget;
 
 /**
  * @var yii\web\View $this
@@ -93,29 +91,4 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php ActiveForm::end(); ?>
 
     </div>
-
-    <p class="text-center">
-        <?= Html::a(Yii::t('user', 'Don\'t have an account? Sign up!'), Yii::$app->urlManagerFrontend->createAbsoluteUrl('/user/register')) ?>
-    </p>
-    
-    
-    <?php /*
-    <?php if ($module->enableConfirmation): ?>
-        <p class="text-center">
-            <?= Html::a(Yii::t('user', 'Didn\'t receive confirmation message?'), ['/user/registration/resend']) ?>
-        </p>
-    <?php endif ?>
-    <?php if ($module->enableRegistration): ?>
-        <p class="text-center">
-            <?= Html::a(Yii::t('user', 'Don\'t have an account? Sign up!'), ['/user/registration/register']) ?>
-        </p>
-    <?php endif ?>
-    <div class="text-center">
-        <p>- or sign in via -</p>
-        <?= Connect::widget([
-            'baseAuthUrl' => ['/user/security/auth'],
-        ]) ?>
-    </div>
-    */ ?>
-    
 </div>

@@ -1,12 +1,18 @@
-# yii2basic
+Yii2 & Restfull API course
+=================================================
 
-Installation (развертывание проекта)
+# Installation of the project "Presentation Exchange" #
+Run next steps inside the 'yii2project' folder:
+- composer install 
+- php init 
+- php yii migrate 
 
+During the migration it would be created database structure and 3 users:
 
+- 'admin' with password 'admin' and 'admin' role
+- 'moderator' with password 'moderator' and 'moderator' role
+- 'user' with password 'user' and 'user' role
 
-Practical task A - web application "Presentations Exchange"
-
-during migration there was created a user 'admin' with password 'admin'.
 
 
 

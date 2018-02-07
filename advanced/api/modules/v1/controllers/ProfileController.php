@@ -4,7 +4,6 @@ namespace api\modules\v1\controllers;
 
 use Yii;
 use api\common\controllers\ActiveController;
-use yii\filters\AccessControl;
 use common\models\Profile;
 
 class ProfileController extends ActiveController

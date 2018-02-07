@@ -27,7 +27,6 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
-    <?php $publicUrl = Yii::$app->urlManagerFrontend->createAbsoluteUrl('presentation/' . $model->public_url); ?>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
@@ -49,11 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'updated_at:datetime',
             'publication_date',
             'expiration_date',
-            [
-                'label' => Yii::t('app', 'Public Url'),
-                'format' => 'raw',
-                'value' => Html::a($publicUrl, $publicUrl, ['target' => '_blank']),
-            ],
+            'public_url',
             'rating',
             [
                 'label' => Yii::t('app', 'Category'),

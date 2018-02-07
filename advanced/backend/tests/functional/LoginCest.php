@@ -5,7 +5,6 @@ namespace backend\tests\functional;
 use backend\tests\FunctionalTester;
 use common\fixtures\UserFixture;
 use common\fixtures\ProfileFixture;
-use yii\helpers\Url;
 
 /**
  * Class LoginCest

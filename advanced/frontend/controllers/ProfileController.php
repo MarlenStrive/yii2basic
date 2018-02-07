@@ -34,6 +34,7 @@ class ProfileController extends Controller
 
     /**
      * Displays a single user profile.
+     * 
      * @param string $slug
      * @return mixed
      */

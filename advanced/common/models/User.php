@@ -40,6 +40,7 @@ class User extends BaseUser implements CommentatorInterface
 
     /**
      * Trigger for the event AFTER_CREATE
+     * 
      * @param Event $event
      */
     public static function afterCreate($event)
@@ -51,6 +52,7 @@ class User extends BaseUser implements CommentatorInterface
 
     /**
      * Trigger for the event AFTER_REGISTER
+     * 
      * @param Event $event
      */
     public static function afterRegister($event)
@@ -60,22 +62,39 @@ class User extends BaseUser implements CommentatorInterface
         $auth->assign($auth->getRole('user'), $event->sender->id);
     }
 
+    /**
+     * Returns roles for the current user
+     * 
+     * @return array
+     */
     public function getRoles()
     {
         $roles = Yii::$app->authManager->getRolesByUser($this->id);
         return ArrayHelper::getColumn($roles, 'name');
     }
 
+    /**
+     * {@inheritDoc}
+     * @see \rmrevin\yii\module\Comments\interfaces\CommentatorInterface::getCommentatorAvatar()
+     */
     public function getCommentatorAvatar()
     {
         return $this->profile->getAvatarUrl(25);
     }
 
+    /**
+     * {@inheritDoc}
+     * @see \rmrevin\yii\module\Comments\interfaces\CommentatorInterface::getCommentatorName()
+     */
     public function getCommentatorName()
     {
         return $this->username;
     }
 
+    /**
+     * {@inheritDoc}
+     * @see \rmrevin\yii\module\Comments\interfaces\CommentatorInterface::getCommentatorUrl()
+     */
     public function getCommentatorUrl()
     {
         return ['profile/slug', 'slug' => $this->username];
