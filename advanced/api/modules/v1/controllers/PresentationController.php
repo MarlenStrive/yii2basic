@@ -13,7 +13,23 @@ use common\helpers\Permission;
 class PresentationController extends ActiveController
 {
     public $modelClass = 'common\models\Presentation';
-    
+
+    /**
+     * Change the page in the presentation
+     *
+     * @return array|ActiveRecord[] presentations list for the current user
+     */
+    public function actionList()
+    {
+        $currentUserId = Yii::$app->user->identity->id;
+        
+        $models = Presentation::find()
+            ->where(['user_id' => $currentUserId])
+            ->all();
+        
+        return $models;
+    }
+
     /**
      * Change the page in the presentation
      * 

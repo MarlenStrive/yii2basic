@@ -5,9 +5,11 @@ namespace api\tests\api;
 use api\tests\ApiTester;
 use common\fixtures\UserFixture;
 use common\fixtures\ProfileFixture;
+use yii\helpers\Url;
+use yii\helpers\Json;
 
 
-class ProifleCest
+class ProfileCest
 {
      /**
      * Load fixtures before db transaction begin
@@ -30,65 +32,71 @@ class ProifleCest
         ];
     }
 
+    public function _before(ApiTester $I)
+    {
+        // Authenticate user
+        $I->sendPOST(Url::toRoute('/oauth2/rest/token'), [
+            'grant_type' => 'password',
+            'username' => 'maria',
+            'password' => 'password_0',
+            'client_id' => 'testclient',
+            'client_secret' => 'testpass',
+        ]);
+        
+        $response = Json::decode($I->grabResponse());
+        if (array_key_exists('access_token', $response)) {
+            $I->amBearerAuthenticated($response['access_token']);
+        }
+    }
+
     public function checkViewOwn(ApiTester $I)
     {
-        $I->wantTo('test the user REST API');
+        $I->wantTo('test the profile view REST API');
         
+        $I->sendGET(Url::toRoute('/v1/profile/view-own'));
         
-        /*
-        $I->sendGET('/v1/profile');
-        $I->seeResponseCodeIs(HttpCode::OK); // 200
         $I->seeResponseIsJson();
-        $I->seeResponseMatchesJsonType([
-            'id' => 'integer',
-            'name' => 'string',
-            'email' => 'string:email',
-            'homepage' => 'string:url|null',
-            'created_at' => 'string:date',
-            'is_active' => 'boolean'
+        $I->seeResponseCodeIs(\Codeception\Util\HttpCode::OK); // 200
+        $I->seeResponseContainsJson([
+            'name' => 'Maria',
+            'second_name' => 'Surname',
+            'public_email' => null,
+            'website' => null,
+            'country' => 'Ukraine',
+            'city' => 'Kyiv',
+            'timezone' => null,
+            'language' => null,
+            'gravatar_email' => null,
+            'bio' => null,
         ]);
-        */
-        //$I->submitForm('#login-form', $this->formParams('admin', 'wrong'));
-        //$I->seeValidationError('Incorrect username or password.');
+        
     }
 
-    /*public function checkUpdateOwn(ApiTester $I)
+    public function checkUpdateOwn(ApiTester $I)
     {
-        //$I->submitForm('#login-form', $this->formParams('admin', 'wrong'));
-        //$I->seeValidationError('Incorrect username or password.');
-    }*/
-
-    /*public function _before(FunctionalTester $I)
-    {
-        $I->amOnRoute('site/login');
+        $I->wantTo('test the profile update REST API');
+        
+        $I->sendPOST(Url::toRoute('/v1/profile/update-own'), [
+            'public_email' => 'someemail@mail.com',
+            'website' => 'http://github.com',
+            'country' => 'Uruguay',
+            'language' => 'Russian',
+        ]);
+        $I->seeResponseCodeIs(\Codeception\Util\HttpCode::OK); // 200
+        
+        $I->sendGET(Url::toRoute('/v1/profile/view-own'));
+        $I->seeResponseContainsJson([
+            'name' => 'Maria',
+            'second_name' => 'Surname',
+            'public_email' => 'someemail@mail.com',
+            'website' => 'http://github.com',
+            'country' => 'Uruguay',
+            'city' => 'Kyiv',
+            'timezone' => null,
+            'language' => 'Russian',
+            'gravatar_email' => null,
+            'bio' => null,
+        ]);
     }
 
-    protected function formParams($login, $password)
-    {
-        return [
-            'LoginForm[username]' => $login,
-            'LoginForm[password]' => $password,
-        ];
-    }
-
-    public function checkEmpty(FunctionalTester $I)
-    {
-        $I->submitForm('#login-form', $this->formParams('', ''));
-        $I->seeValidationError('Username cannot be blank.');
-        $I->seeValidationError('Password cannot be blank.');
-    }
-
-    public function checkWrongPassword(FunctionalTester $I)
-    {
-        $I->submitForm('#login-form', $this->formParams('admin', 'wrong'));
-        $I->seeValidationError('Incorrect username or password.');
-    }
-    
-    public function checkValidLogin(FunctionalTester $I)
-    {
-        $I->submitForm('#login-form', $this->formParams('erau', 'password_0'));
-        $I->see('Logout (erau)', 'form button[type=submit]');
-        $I->dontSeeLink('Login');
-        $I->dontSeeLink('Signup');
-    }*/
 }

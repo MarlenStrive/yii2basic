@@ -38,8 +38,8 @@ return [
             'errorAction' => 'site/error',
         ],
         'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
+            //'enablePrettyUrl' => true,
+            //'showScriptName' => false,
             'rules' => [
                 'presentation' => 'presentation/index',
                 'presentation/index' => 'presentation/index',

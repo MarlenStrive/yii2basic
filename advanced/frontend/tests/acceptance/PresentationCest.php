@@ -1,12 +1,12 @@
 <?php
 namespace frontend\tests\acceptance;
 
-//use Yii;
 use frontend\tests\AcceptanceTester;
 use common\fixtures\UserFixture;
 use common\fixtures\ProfileFixture;
 use common\fixtures\CategoryFixture;
 use common\fixtures\PresentationFixture;
+use yii\helpers\Url;
 
 
 class PresentationCest
@@ -39,40 +39,64 @@ class PresentationCest
             ],
         ];
     }
-
-    public function viewPresentation(AcceptanceTester $I)
+    
+    public function _before(AcceptanceTester $I)
     {
-        
-        
-        /*
-        $mariaUser = $I->grabFixture('user', 'user-maria');
-        
-        $I->amLoggedInAs($mariaUser->id);
-        $I->amOnPage('/presentation');
-        
-        $I->see('Presentations', 'div.presentation-index h1');
-        $I->seeLink('Create Presentation', '/presentation/create');
-        
-        $I->seeNumberOfElements('.grid-view tr[data-key]', 3); // 3 presentations are expected to seen
-        
-        */
-        
-        
-        
-        /*
         $I->amOnPage(Url::toRoute('/site/index'));
-        $I->see('My Application');
+        $I->resizeWindow(1400, 1200);
+        $I->click('Sign in');
+        
+        $I->fillField('login-form[login]', 'maria');
+        $I->fillField('login-form[password]', 'password_0');
+        
+        $I->click('button[type=submit]');
+        $I->wait(3);
+    }
 
-        $I->seeLink('About');
-        $I->click('About');
-        $I->wait(2); // wait for page to be opened
+    public function viewPresentations(AcceptanceTester $I)
+    {
+        $I->see('Presentations', 'h1');
+        
+        $I->seeNumberOfElements('.grid-view tr[data-key]', 2); // 2 presentations are expected to seen
+        
+        $I->seeLink('Some Title');
+        $I->seeLink('Paul presentation');
+        
+        
+        // View presentation page
+        $presentation = $I->grabFixture('presentation', 'presentation-paul');
+        $I->amOnPage(Url::toRoute(['/presentation/slug', 'slug' => $presentation->public_url]));
+        
+        $I->seeInTitle($presentation->title);
+        $I->seeElement('img.image-preview');
+        
+        $I->seeLink('View Presentation');
+        
+        $I->see('Comments', 'h3.comment-title');
+    }
 
-        $I->see('This is the About page.');
-        */
+    public function searchPresentationsForm(AcceptanceTester $I)
+    {
+        // empty form
+        $I->seeNumberOfElements('.grid-view tr[data-key]', 2); // 2 presentations are expected to seen
+        
+        $I->fillField('PresentationSearch[username]', 'paul');
+        $I->click('Search');
+        $I->wait(1);
+        $I->seeNumberOfElements('.grid-view tr[data-key]', 1); // 1 presentation is found
         
         
+        $I->fillField('PresentationSearch[title]', 'not-present-title');
+        $I->click('Search');
+        $I->wait(1);
+        $I->seeNumberOfElements('.grid-view tr[data-key]', 0); // no title is found
         
         
-        
+        $I->fillField('PresentationSearch[title]', 'paul');
+        //$I->fillField('PresentationSearch[category_id]', 3);
+        $I->selectOption('PresentationSearch[category_id]', '3');
+        $I->click('Search');
+        $I->wait(1);
+        $I->seeNumberOfElements('.grid-view tr[data-key]', 1); // presentation is found by title, username and category
     }
 }

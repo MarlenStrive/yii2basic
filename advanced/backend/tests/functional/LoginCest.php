@@ -5,6 +5,7 @@ namespace backend\tests\functional;
 use backend\tests\FunctionalTester;
 use common\fixtures\UserFixture;
 use common\fixtures\ProfileFixture;
+use yii\helpers\Url;
 
 /**
  * Class LoginCest
@@ -42,10 +43,10 @@ class LoginCest
         $I->fillField('login-form[password]', 'password_0');
         $I->click('Sign in');
         
-        $I->seeLink('Sign out', '/site/logout');
+        $I->seeLink('Sign out');
         // check menu links
-        $I->seeLink('Profile', '/user/settings/profile');
-        $I->seeLink('Presentations', '/presentation');
+        $I->seeLink('Profile');
+        $I->seeLink('Presentations');
     }
 
 }

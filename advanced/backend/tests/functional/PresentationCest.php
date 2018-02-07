@@ -52,10 +52,10 @@ class PresentationCest
         $mariaUser = $I->grabFixture('user', 'user-maria');
         
         $I->amLoggedInAs($mariaUser->id);
-        $I->amOnPage('/presentation');
+        $I->amOnPage(['/presentation']);
         
         $I->see('Presentations', 'div.presentation-index h1');
-        $I->seeLink('Create Presentation', '/presentation/create');
+        $I->seeLink('Create Presentation');
         
         $I->seeNumberOfElements('.grid-view tr[data-key]', 3); // 3 presentations are expected to seen
     }
@@ -70,17 +70,12 @@ class PresentationCest
         
         $I->amLoggedInAs($mariaUser->id);
         
-        $I->amOnPage(['presentation/view', 'id' => $presentation->id]);
+        $I->amOnPage(['/presentation/view', 'id' => $presentation->id]);
         
         $I->seeInTitle($presentation->title);
         $I->seeLink('Update', Yii::$app->getUrlManager()->createUrl(['presentation/update', 'id' => $presentation->id]));
         $I->seeLink('Delete', Yii::$app->getUrlManager()->createUrl(['presentation/delete', 'id' => $presentation->id]));
         
         $I->seeNumberOfElements('.detail-view tr', 14); // number of lines in the view table
-        
-        /*
-        //$I->seeRecord($model)
-        */
     }
-    
 }

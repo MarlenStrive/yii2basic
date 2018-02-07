@@ -3,8 +3,6 @@ modules:
     enabled:
         - WebDriver:
             browser: chrome
-            url: http://localhost # http://localhost/frontend/web # http://f.yii2advanced.example # http://localhost
-            #window_size: maximize
-            restart: true
+            url: http://localhost/frontend/web
         - Yii2:
-            part: init
+            part: [init, fixtures]

@@ -73,16 +73,16 @@ return [
             ],
         ],
         'urlManager' => [
-            'enablePrettyUrl' => true,
-            'enableStrictParsing' => true,
-            'showScriptName' => false,
+            //'enablePrettyUrl' => true,
+            //'enableStrictParsing' => true,
+            //'showScriptName' => false,
             'rules' => [
                 'POST v1/oauth2/<action:\w+>' => 'oauth2/rest/<action>',
                 'GET v1/profile' => 'v1/profile/view-own',
                 'POST v1/profile' => 'v1/profile/update-own',
-                'GET v1/profile' => 'v1/profile/view-own',
                 
                 //['class' => 'yii\rest\UrlRule', 'controller' => 'v1/presentation'], // dont need all these actions
+                'GET v1/presentations' => 'v1/presentation/list',
                 'POST v1/presentation/<slug>/<number:\d+>' => 'v1/presentation/update-page',
             ],
         ],

@@ -84,8 +84,8 @@ install and start Selenium server with ChromeDriver
 Change if needed value 'WebDriver.url' inside file 'frontend/tests/acceptance.suite.yml' to needed url for running acceptence tests.
 
 vendor/bin/codecept run
-vendor/bin/codecept run frontend/tests/acceptance/HomeCest.php (run one test)
-
+vendor/bin/codecept run frontend/tests/acceptance/HomeCest.php (run one test file)
+vendor/bin/codecept run frontend/tests/acceptance/HOmeCest.php:checkLoginRegistrationForm (run one file)
 
 
 
@@ -121,9 +121,12 @@ curl -X POST \
     "bio": "Biography story"
 }'
 
-Request to get list of presentations:
+Change the current page in the presentation:
 curl -X GET \
-  http://api.loc/v1/presentations \
-  -H 'Authorization: Bearer <ACCESS_TOKEN>'
-
-
+  http://api.loc/v1/presentation/<presentation-public-url>/<page-number> \
+  -H 'Authorization: Bearer <ACCESS_TOKEN>' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "content": "Some new page content",
+    "note": "Some new note"
+}'

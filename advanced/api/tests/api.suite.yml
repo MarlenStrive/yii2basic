@@ -2,7 +2,8 @@ class_name: ApiTester
 modules:
     enabled:
         - REST:
-            url: /api # /api/v1
+            url: http://localhost/api/web
             depends: Yii2
+            part: Json
     config:
         - Yii2
