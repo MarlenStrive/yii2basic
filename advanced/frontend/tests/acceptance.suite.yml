@@ -1,0 +1,10 @@
+class_name: AcceptanceTester
+modules:
+    enabled:
+        - WebDriver:
+            browser: chrome
+            url: http://localhost # http://localhost/frontend/web # http://f.yii2advanced.example # http://localhost
+            #window_size: maximize
+            restart: true
+        - Yii2:
+            part: init

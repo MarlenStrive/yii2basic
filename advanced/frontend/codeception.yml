@@ -13,3 +13,7 @@ modules:
     config:
         Yii2:
             configFile: 'config/test-local.php'
+            part: ORM # allow to use AR methods
+            #transaction: false # don't wrap test in transaction
+            #cleanup: false # don't cleanup the fixtures
+            entryScript: index-test.php

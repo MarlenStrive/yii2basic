@@ -78,8 +78,13 @@ TESTS:
 create database 'yii2advanced_test'
 run ./yii_test migrate
 run vendor/bin/codecept build
-run vendor/bin/codecept run
 
+install and start Selenium server with ChromeDriver
+
+Change if needed value 'WebDriver.url' inside file 'frontend/tests/acceptance.suite.yml' to needed url for running acceptence tests.
+
+vendor/bin/codecept run
+vendor/bin/codecept run frontend/tests/acceptance/HomeCest.php (run one test)
 
 
 

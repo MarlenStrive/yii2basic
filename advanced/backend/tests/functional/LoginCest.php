@@ -4,13 +4,13 @@ namespace backend\tests\functional;
 
 use backend\tests\FunctionalTester;
 use common\fixtures\UserFixture;
+use common\fixtures\ProfileFixture;
 
 /**
  * Class LoginCest
  */
 class LoginCest
 {
-
     /**
      * Load fixtures before db transaction begin
      * Called in _before()
@@ -23,23 +23,29 @@ class LoginCest
         return [
             'user' => [
                 'class' => UserFixture::className(),
-                'dataFile' => codecept_data_dir() . 'login_data.php'
-            ]
+                'dataFile' => codecept_data_dir() . 'user.php',
+            ],
+            'profile' => [
+                'class' => ProfileFixture::className(),
+                'dataFile' => codecept_data_dir() . 'profile.php',
+            ],
         ];
     }
-    
+
     /**
      * @param FunctionalTester $I
      */
     public function loginUser(FunctionalTester $I)
     {
-        $I->amOnPage('/site/login');
-        $I->fillField('Username', 'erau');
-        $I->fillField('Password', 'password_0');
-        $I->click('login-button');
-
-        $I->see('Logout (erau)', 'form button[type=submit]');
-        $I->dontSeeLink('Login');
-        $I->dontSeeLink('Signup');
+        $I->amOnPage('/user/login');
+        $I->fillField('login-form[login]', 'maria');
+        $I->fillField('login-form[password]', 'password_0');
+        $I->click('Sign in');
+        
+        $I->seeLink('Sign out', '/site/logout');
+        // check menu links
+        $I->seeLink('Profile', '/user/settings/profile');
+        $I->seeLink('Presentations', '/presentation');
     }
+
 }

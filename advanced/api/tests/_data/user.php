@@ -1,23 +1,22 @@
 <?php
 
 return [
-    [
-        'username' => 'okirlin',
-        'auth_key' => 'iwTNae9t34OmnK6l4vT4IeaTk-YWI2Rv',
-        'password_hash' => '$2y$13$CXT0Rkle1EMJ/c1l5bylL.EylfmQ39O5JlHJVFpNn618OUS1HwaIi',
-        'password_reset_token' => 't5GU9NwpuGYSfb7FEZMAxqtuz2PkEvv_' . time(),
-        'created_at' => '1391885313',
-        'updated_at' => '1391885313',
-        'email' => 'brady.renner@rutherford.com',
+    'user-maria' => [
+        'id' => 1,
+        'username' => 'maria',
+        'password_hash' => '$2y$13$EjaPFBnZOQsHdGuHI.xvhuDp1fHpo8hKRSk6yshqa9c5EG8s3C3lO', // password_0
+        'email' => 'maria@mail.com',
+        'auth_key' => 'HP187Mvq7Mmm3CTU80dLkGmni_FUH_lR',
+        'created_at' => '1517834543',  //2018-02-05
+        'updated_at' => '1517834543',
     ],
-    [
-        'username' => 'troy.becker',
-        'auth_key' => 'EdKfXrx88weFMV0vIxuTMWKgfK2tS3Lp',
-        'password_hash' => '$2y$13$g5nv41Px7VBqhS3hVsVN2.MKfgT3jFdkXEsMC4rQJLfaMa7VaJqL2',
-        'password_reset_token' => '4BSNyiZNAuxjs5Mty990c47sVrgllIi_' . time(),
-        'created_at' => '1391885313',
-        'updated_at' => '1391885313',
-        'email' => 'nicolas.dianna@hotmail.com',
-        'status' => '0',
+    'user-paul' => [
+        'id' => 2,
+        'username' => 'paul',
+        'password_hash' => '$2y$12$WkRMMelDToBXnm4kjHH5Eu5J8J2vLxRveCIm4/NxhrBf.mSVWaq9S', // 123456
+        'email' => 'paul@mail.com',
+        'auth_key' => '-Ds7kvybJnHwrFA-UEWA6vn7prApJofH',
+        'created_at' => '1517834588',  //2018-02-05
+        'updated_at' => '1517834588',
     ],
 ];
