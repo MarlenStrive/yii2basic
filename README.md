@@ -4,18 +4,14 @@ Yii2 & Restfull API course
 # Installation of the project "Presentation Exchange" #
 Run next steps inside the 'yii2project' folder:
 - composer install 
-- php init 
-- php yii migrate 
+- ./init 
+- ./yii migrate 
 
 During the migration it would be created database structure and 3 users:
 
 - 'admin' with password 'admin' and 'admin' role
 - 'moderator' with password 'moderator' and 'moderator' role
 - 'user' with password 'user' and 'user' role
-
-
-
-
 
 
 ## Available console commands
@@ -78,38 +74,26 @@ Clearing the counters of presentations.
 ```
 
 
-
-TESTS:
-
-create database 'yii2advanced_test'
-run ./yii_test migrate
-run vendor/bin/codecept build
-
-install and start Selenium server with ChromeDriver
-
-Change if needed value 'WebDriver.url' inside file 'frontend/tests/acceptance.suite.yml' to needed url for running acceptence tests.
-
-vendor/bin/codecept run
-vendor/bin/codecept run frontend/tests/acceptance/HomeCest.php (run one test file)
-vendor/bin/codecept run frontend/tests/acceptance/HOmeCest.php:checkLoginRegistrationForm (run one file)
-
-
-
-Practical task B - REST API for modile applications
+# REST API for modile applications #
 
 Request to get access token:
+```
 curl -X POST \
   http://api.loc/v1/oauth2/token \
   -H 'Content-Type: application/json' \
   -d '{"grant_type":"password","username":"admin","password":"admin","client_id":"testclient","client_secret":"testpass"}'
+```
 
 Request current user profile:
+```
 curl -X GET \
   http://api.loc/v1/profile \
   -H 'Authorization: Bearer <ACCESS_TOKEN>'
 where <ACCESS_TOKEN> is 'access_token' from the previous response
+```
 
 Update current user profile:
+```
 curl -X POST \
   http://api.loc/v1/profile \
   -H 'Authorization: Bearer <ACCESS_TOKEN>' \
@@ -126,8 +110,10 @@ curl -X POST \
     "gravatar_email": "some@email.com",
     "bio": "Biography story"
 }'
+```
 
 Change the current page in the presentation:
+```
 curl -X GET \
   http://api.loc/v1/presentation/<presentation-public-url>/<page-number> \
   -H 'Authorization: Bearer <ACCESS_TOKEN>' \
@@ -136,3 +122,17 @@ curl -X GET \
     "content": "Some new page content",
     "note": "Some new note"
 }'
+```
+
+
+# Testing #
+To run testing there should be done next steps:
+- create database 'yii2advanced_test' (or other one, that is specified in the config files 'test-local.php'
+- run ./yii_test migrate
+- run vendor/bin/codecept build
+- to run acceptance tests you need to install and start Selenium server with ChromeDriver (good instraction here https://gist.github.com/ziadoz/3e8ab7e944d02fe872c3454d17af31a5). Change if needed value 'WebDriver.url' inside the file 'frontend/tests/acceptance.suite.yml'.
+
+Run tests:
+vendor/bin/codecept run
+
+
