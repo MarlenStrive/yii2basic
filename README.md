@@ -89,8 +89,8 @@ Request current user profile:
 curl -X GET \
   http://api.loc/v1/profile \
   -H 'Authorization: Bearer <ACCESS_TOKEN>'
-where <ACCESS_TOKEN> is 'access_token' from the previous response
 ```
+where <ACCESS_TOKEN> is 'access_token' from the previous response
 
 Update current user profile:
 ```
