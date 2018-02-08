@@ -130,7 +130,7 @@ To run testing there should be done next steps:
 - create database 'yii2advanced_test' (or other one, that is specified in the config files 'test-local.php')
 - run ./yii_test migrate
 - run vendor/bin/codecept build
-- to run acceptance tests you need to install and start Selenium server with ChromeDriver (good instraction here https://gist.github.com/ziadoz/3e8ab7e944d02fe872c3454d17af31a5)
+- to run acceptance tests need to install and start Selenium server with ChromeDriver (found a good instraction here https://gist.github.com/ziadoz/3e8ab7e944d02fe872c3454d17af31a5)
 - change if needed values 'WebDriver.url' inside the file 'frontend/tests/acceptance.suite.yml' and 'REST.url' inside the file 'api/tests/api.suite.yml'
 
 Run tests:
