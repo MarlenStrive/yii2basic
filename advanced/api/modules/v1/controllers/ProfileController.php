@@ -44,8 +44,12 @@ class ProfileController extends ActiveController
         $model = Profile::findOne(['user_id' => $currentUserId]);
         
         $model->load(Yii::$app->getRequest()->getBodyParams(), '');
-        if ($model->save() === false && !$model->hasErrors()) {
-            throw new ServerErrorHttpException(Yii::t('app', 'Failed to update the object for unknown reason.'));
+        if ($model->save() === false) {
+            if (!$model->hasErrors()) {
+                throw new ServerErrorHttpException(Yii::t('app', 'Failed to update the object for unknown reason.'));
+            } else {
+                return ['errors' => $model->errors];
+            }
         }
         
         return array_intersect_key($model->attributes, array_flip($this->fieldsList));

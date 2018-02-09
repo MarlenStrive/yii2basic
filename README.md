@@ -112,6 +112,13 @@ curl -X POST \
 }'
 ```
 
+Request list of presentations for the current user:
+```
+curl -X GET \
+  http://api.loc/v1/presentations \
+  -H 'Authorization: Bearer <ACCESS_TOKEN>'
+```
+
 Change the current page in the presentation:
 ```
 curl -X GET \
